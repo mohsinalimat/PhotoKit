@@ -96,9 +96,9 @@ open class ParadiseAlbumButton: UIView {
     open var isSelected: Bool = false {
         didSet {
             if isSelected {
-                self.imageView.image = UIImage.init(named: "")
+                self.imageView.image = UIImage.arrowDropUp
             } else {
-                self.imageView.image = UIImage.init(named: "")
+                self.imageView.image = UIImage.arrowDropDown
             }
         }
     }

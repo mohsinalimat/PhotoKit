@@ -269,7 +269,7 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     }
     
     open func setupBarButtonItems(hasAlbum: Bool) {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .done, target: self, action: #selector(preview))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage.pinRight, style: .plain, target: self, action: #selector(preview))
         
         if hasAlbum {
             let albumItem = UIBarButtonItem.init(customView: self.albumButton)
@@ -322,6 +322,7 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     @objc
     internal func showAlbumList() {
         let isShown = (self.tableView.topConstraint?.constant ?? 0) == 0
+        self.albumButton.isSelected = !isShown
         let tableHeight = self.tableViewHeight
         UIView.animate(withDuration: 0.25) { [weak self] in
             let alpha: CGFloat = isShown ? 0 : 1
@@ -524,7 +525,8 @@ extension ParadiseLibraryController: UICollectionViewDelegate, UICollectionViewD
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.frame.width - 3 * self.collectionItemMargin) / 4
+        let countPerRow = 3
+        let width = (collectionView.frame.width - CGFloat(countPerRow - 1) * self.collectionItemMargin) / CGFloat(countPerRow)
         return CGSize(width: width, height: width)
     }
     

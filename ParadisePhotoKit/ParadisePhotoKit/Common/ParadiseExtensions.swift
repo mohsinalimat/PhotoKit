@@ -65,6 +65,24 @@ import Foundation
 import UIKit
 import Photos
 
+public extension UIImage {
+    public static var arrowDropUp: UIImage? {
+        return UIImage.init(named: "arrow drop up")
+    }
+    
+    public static var arrowDropDown: UIImage? {
+        return UIImage.init(named: "arrow drop down")
+    }
+    
+    public static var pinRight: UIImage? {
+        return UIImage.init(named: "Pin ri")
+    }
+    
+    public static var pinLeft: UIImage? {
+        return UIImage.init(named: "Pin Left")
+    }
+}
+
 public extension Array where Element == ParadiseResult {
     public var images: [UIImage] {
         return self.flatMap { (result) -> UIImage? in

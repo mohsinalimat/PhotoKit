@@ -137,7 +137,7 @@ open class ParadisePhotoPreviewController: ParadiseViewController {
     open func setupUIComponents() {
         
         self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .done, target: self, action: #selector(doneAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage.pinRight, style: .plain, target: self, action: #selector(doneAction))
         
         self.view.backgroundColor = UIColor.black
         

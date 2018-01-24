@@ -136,7 +136,6 @@
 			children = (
 				6483F99E20182BB4002B802B /* ParadisePhotoKit.swift */,
 				6483F99A201826BB002B802B /* Common */,
-				6483F99D201826DE002B802B /* Models */,
 				6483F998201826AD002B802B /* Views */,
 				6483F99B201826C3002B802B /* Contrllers */,
 			);
@@ -186,13 +185,6 @@
 				6483F9A820184A69002B802B /* ParadiseNavigationController.swift */,
 			);
 			path = Contrllers;
-			sourceTree = "<group>";
-		};
-		6483F99D201826DE002B802B /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
