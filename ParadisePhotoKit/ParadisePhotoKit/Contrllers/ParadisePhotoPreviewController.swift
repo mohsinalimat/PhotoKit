@@ -133,12 +133,8 @@ open class ParadisePhotoPreviewController: ParadiseViewController {
         
         self.setupUIComponents()
         
-        if let asset = self.dataSource?.previewer(self, assetForItemAt: 0) {
-            ParadiseMachine.request(image: .original, form: asset, sourceMode: nil, completion: { (results) in
-                if self.imageView.image == nil {
-                    self.imageView.image = results.image
-                }
-            })
+        if (self.dataSource?.numberOfItems(in: self) ?? 0) > 0 {
+            self.loadImage(at: IndexPath.init(item: 0, section: 0))
         }
     }
     
@@ -213,8 +209,36 @@ extension ParadisePhotoPreviewController: UICollectionViewDelegate, UICollection
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as? ParadisePhotoPreviewCollectionViewCell
-        self.imageView.image = cell?.thumbnailView.image
+        self.loadImage(at: indexPath)
+    }
+    
+    public func loadImage(at indexPath: IndexPath) {
+        if let asset = self.dataSource?.previewer(self, assetForItemAt: indexPath.item) {
+            if asset.isGIF {
+                ParadiseMachine.requestGIF(from: asset, completion: { (gif) in
+                    if let gif = gif {
+                        self.imageView.image = gif
+                    } else {
+                        self.loadImageFromCell(at: indexPath, asset: asset)
+                    }
+                })
+                return
+            }
+            self.loadImageFromCell(at: indexPath, asset: asset)
+        }
+    }
+    
+    public func loadImageFromCell(at indexPath: IndexPath, asset: PHAsset?) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ParadisePhotoPreviewCollectionViewCell,
+            let image = cell.thumbnailView.image else {
+                if let asset = asset {
+                    ParadiseMachine.request(image: .original, form: asset, sourceMode: nil, completion: { (result) in
+                        self.imageView.image = result.image
+                    })
+                }
+                return
+        }
+        self.imageView.image = image
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

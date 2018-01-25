@@ -64,6 +64,7 @@
 import Foundation
 import UIKit
 import Photos
+import MobileCoreServices
 
 public extension UIImage {
     public static var arrowDropUp: UIImage? {
@@ -118,6 +119,18 @@ internal extension UIViewController {
         get {
             return self.edgesForExtendedLayout != []
         }
+    }
+}
+
+public extension PHAsset {
+    public var isGIF: Bool {
+        guard self.mediaType == .image else {
+            return false
+        }
+        guard let uniformTypeIdentifier = self.value(forKey: "uniformTypeIdentifier") as? String else {
+            return false
+        }
+        return uniformTypeIdentifier == kUTTypeGIF as String
     }
 }
 

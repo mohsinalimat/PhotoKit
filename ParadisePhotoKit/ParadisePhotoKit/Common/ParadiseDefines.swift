@@ -171,6 +171,9 @@ public struct ParadiseResult {
     public let videoURL: URL?
     public let asset: PHAsset
     public let info: [AnyHashable: Any]?
+    public var isGIF: Bool {
+        return self.asset.isGIF
+    }
 }
 
 public enum ParadiseImageType: Equatable {

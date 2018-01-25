@@ -132,6 +132,24 @@ open class ParadiseMachine {
         }
     }
     
+    open class func requestGIF(from asset: PHAsset, completion: @escaping (_ gif: UIImage?) -> Void) {
+        let options = self.imageRequestOptions
+        DispatchQueue.global(qos: .default).async(execute: {
+            PHImageManager.default().requestImageData(for: asset, options: options, resultHandler: { (data, dataUTI, _, info) in
+                if let data = data, let uti = dataUTI {
+                    if uti == "com.compuserve.gif" {
+                        let image = UIImage.gif(data: data)
+                        DispatchQueue.main.async {
+                            completion(image)
+                        }
+                        return
+                    }
+                }
+                completion(nil)
+            })
+        })
+    }
+    
     open class func mp4(from original: URL, completion: @escaping (_ result: URL, _ error: Error?) -> Void) {
         
         let mp4Path = original.path.replacingOccurrences(of: ".mov", with: ".mp4")
