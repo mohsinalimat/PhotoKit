@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4E507A421D29AED2874403CE /* Pods_ParadisePhotoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08B92D5766E3035B59A56698 /* Pods_ParadisePhotoKit.framework */; };
 		6425749C2019B15200F2113A /* ParadiseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6425749B2019B15200F2113A /* ParadiseImageView.swift */; };
+		6425749E2019B99300F2113A /* ParadiseVideoPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6425749D2019B99300F2113A /* ParadiseVideoPreviewController.swift */; };
 		6483F971201824E1002B802B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F970201824E1002B802B /* AppDelegate.swift */; };
 		6483F973201824E1002B802B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F972201824E1002B802B /* ViewController.swift */; };
 		6483F976201824E1002B802B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6483F974201824E1002B802B /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 		08B92D5766E3035B59A56698 /* Pods_ParadisePhotoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParadisePhotoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		186B0E929B6028D34FDE9D8A /* Pods-ParadisePhotoKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParadisePhotoKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-ParadisePhotoKit/Pods-ParadisePhotoKit.release.xcconfig"; sourceTree = "<group>"; };
 		6425749B2019B15200F2113A /* ParadiseImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParadiseImageView.swift; sourceTree = "<group>"; };
+		6425749D2019B99300F2113A /* ParadiseVideoPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseVideoPreviewController.swift; sourceTree = "<group>"; };
 		6483F96D201824E1002B802B /* ParadisePhotoKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParadisePhotoKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6483F970201824E1002B802B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6483F972201824E1002B802B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				6483F98820182516002B802B /* ParadiseLibraryController.swift */,
 				6483F98A2018252B002B802B /* ParadiseCameraController.swift */,
 				6483F99220182669002B802B /* ParadisePhotoPreviewController.swift */,
+				6425749D2019B99300F2113A /* ParadiseVideoPreviewController.swift */,
 				6483F9A6201849D8002B802B /* ParadiseViewController.swift */,
 				6483F9A820184A69002B802B /* ParadiseNavigationController.swift */,
 			);
@@ -331,6 +334,7 @@
 				6483F98F201825B2002B802B /* ParadiseExtensions.swift in Sources */,
 				6483F996201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.swift in Sources */,
 				6483F99F20182BB4002B802B /* ParadisePhotoKit.swift in Sources */,
+				6425749E2019B99300F2113A /* ParadiseVideoPreviewController.swift in Sources */,
 				6483F9A920184A69002B802B /* ParadiseNavigationController.swift in Sources */,
 				6425749C2019B15200F2113A /* ParadiseImageView.swift in Sources */,
 				6483F98B2018252B002B802B /* ParadiseCameraController.swift in Sources */,

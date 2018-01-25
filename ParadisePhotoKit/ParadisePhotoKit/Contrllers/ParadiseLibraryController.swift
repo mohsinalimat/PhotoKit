@@ -175,10 +175,15 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     
     internal lazy var albumButton: ParadiseAlbumButton = {
         let button = ParadiseAlbumButton.init()
-        button.titleLabel.text = "All Photos"
+        button.titleLabel.text = self.defaultAlbumButtonTitle
         button.addTarget(self, action: #selector(albumListAnimation), for: UIControlEvents.touchUpInside)
         return button
     }()
+    
+    internal var defaultAlbumButtonTitle: String {
+        let t = (self.mediaType == .photos) ? "All Photos" : "All Videos"
+        return NSLocalizedString(t, comment: "")
+    }
     
     open internal(set) lazy var tableView: UITableView = {
         let table = UITableView.init(frame: .zero, style: UITableViewStyle.plain)
@@ -650,12 +655,14 @@ extension ParadiseLibraryController: UITableViewDelegate, UITableViewDataSource 
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
             if self.selectedAlbum != nil {
+                self.albumButton.titleLabel.text = self.defaultAlbumButtonTitle
                 self.selectedAlbum = nil
                 self.collectionView.reloadData()
             }
         } else {
             let album = self.album(at: indexPath.row)
             if self.selectedAlbum != album {
+                self.albumButton.titleLabel.text = album?.localizedTitle
                 self.selectedAlbum = album
                 self.setupAssets(of: self.selectedAlbum)
             }
