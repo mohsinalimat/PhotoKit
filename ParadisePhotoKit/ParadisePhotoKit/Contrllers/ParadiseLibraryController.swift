@@ -176,7 +176,7 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     internal lazy var albumButton: ParadiseAlbumButton = {
         let button = ParadiseAlbumButton.init()
         button.titleLabel.text = "All Photos"
-        button.addTarget(self, action: #selector(showAlbumList), for: UIControlEvents.touchUpInside)
+        button.addTarget(self, action: #selector(albumListAnimation), for: UIControlEvents.touchUpInside)
         return button
     }()
     
@@ -193,7 +193,7 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     }()
     
     open let tableViewCellHeight: CGFloat = 56
-    open let tableViewCellVisibleLimit: Int = 4
+    open var tableViewCellVisibleLimit: Int = 4
     
     open var tableViewHeight: CGFloat {
         return self.tableViewCellHeight * CGFloat(self.tableViewCellVisibleLimit)
@@ -213,13 +213,18 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     
     open internal(set) lazy var tableViewShadowExtendedButton: UIButton = {
         let button = UIButton.init()
-        button.addTarget(self, action: #selector(showAlbumList), for: UIControlEvents.touchUpInside)
+        button.backgroundColor = UIColor.init(white: 0, alpha: 0.1)
+        button.addTarget(self, action: #selector(hideAlbumList), for: UIControlEvents.touchUpInside)
         button.alpha = 0
         return button
     }()
     
+    open var isTablViewShown: Bool {
+        return (self.tableView.topConstraint?.constant ?? 0) == 0
+    }
+    
     internal func updateTitle() {
-//        self.navigationItem.title = "\(self.selectedAssets.count) / \(self.multiSelectionLimit)"
+        self.counterLabel.text = "\(self.selectedAssets.count) / \(self.multiSelectionLimit)"
     }
     
     open override func viewDidLoad() {
@@ -268,8 +273,19 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
         self.tableViewShadowExtendedButton.left(0).right(0).bottom(0)
     }
     
+    internal lazy var counterLabel: UILabel = {
+        let label = UILabel.init()
+        label.textColor = UIColor.lightGray
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textAlignment = .right
+        label.width(>=20).height(>=20)
+        return label
+    }()
+    
     open func setupBarButtonItems(hasAlbum: Bool) {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage.pinRight, style: .plain, target: self, action: #selector(preview))
+        let previewItem = UIBarButtonItem.init(image: UIImage.pinRight, style: .plain, target: self, action: #selector(preview))
+        let counterItem = UIBarButtonItem.init(customView: self.counterLabel)
+        self.navigationItem.rightBarButtonItems = [previewItem, counterItem]
         
         if hasAlbum {
             let albumItem = UIBarButtonItem.init(customView: self.albumButton)
@@ -277,7 +293,8 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
             if let closeItem = self.navigationItem.leftBarButtonItem {
                 self.navigationItem.leftBarButtonItems = [closeItem, albumItem]
             } else {
-                let closeItem = UIBarButtonItem.init(barButtonSystemItem: .stop, target: self, action: #selector(closePanel))
+                let closeItem = UIBarButtonItem.init(image: UIImage.pinLeft, style: .plain, target: self, action: #selector(closePanel))
+//                UIBarButtonItem.init(barButtonSystemItem: .stop, target: self, action: #selector(closePanel))
                 self.navigationItem.leftBarButtonItems = [closeItem, albumItem]
             }
         }
@@ -321,7 +338,21 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     
     @objc
     internal func showAlbumList() {
-        let isShown = (self.tableView.topConstraint?.constant ?? 0) == 0
+        if !self.isTablViewShown {
+            self.albumListAnimation()
+        }
+    }
+    
+    @objc
+    internal func hideAlbumList() {
+        if self.isTablViewShown {
+            self.albumListAnimation()
+        }
+    }
+    
+    @objc
+    internal func albumListAnimation() {
+        let isShown = self.isTablViewShown
         self.albumButton.isSelected = !isShown
         let tableHeight = self.tableViewHeight
         UIView.animate(withDuration: 0.25) { [weak self] in
@@ -555,6 +586,14 @@ extension ParadiseLibraryController: ParadisePhotoPreviewDelegate, ParadisePhoto
     
     @objc
     internal func preview() {
+        if self.isTablViewShown {
+            self.hideAlbumList()
+        }
+        guard !self.selectedAssets.isEmpty else {
+            self.closePanel()
+            return
+        }
+        
         let preview = ParadisePhotoPreviewController.init()
         preview.dataSource = self
         preview.delegate = self
@@ -607,7 +646,7 @@ extension ParadiseLibraryController: UITableViewDelegate, UITableViewDataSource 
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.showAlbumList()
+        self.hideAlbumList()
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
             if self.selectedAlbum != nil {

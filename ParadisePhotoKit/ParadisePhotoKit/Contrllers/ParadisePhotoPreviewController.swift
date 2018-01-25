@@ -86,9 +86,16 @@ open class ParadisePhotoPreviewController: ParadiseViewController {
         return layout
     }()
     
-    internal var collectionItemMargin: CGFloat = 5
-    internal var collectionEdgeMargin: CGFloat = 5
-    internal var collectionHeight: CGFloat = 48
+    internal let collectionItemMargin: CGFloat = 5
+    internal let collectionEdgeMargin: CGFloat = 5
+    internal let collectionHeight: CGFloat = 48
+    internal let bottomHeight: CGFloat = 48
+    internal var barBottomMargin: CGFloat {
+        return UIApplication.iPhoneX ? SafeAreaBottomPadding.iPhoneX.rawValue : 0
+    }
+    internal var imageViewHeight: CGFloat {
+        return self.view.bounds.height - self.collectionHeight - self.bottomHeight - self.collectionEdgeMargin * 2 - self.barBottomMargin
+    }
     
     public var collectionCellSize: CGSize {
         return CGSize.init(width: self.collectionHeight, height: self.collectionHeight)
@@ -105,9 +112,10 @@ open class ParadisePhotoPreviewController: ParadiseViewController {
         return collection
     }()
     
-    open lazy var imageView: UIImageView = {
-        let imgView = UIImageView.init()
-        imgView.contentMode = .scaleAspectFill
+    open lazy var imageView: ParadiseImageView = {
+        let frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.imageViewHeight)
+        let imgView = ParadiseImageView.init(frame: frame)
+//        imgView.contentMode = .scaleAspectFill
         imgView.clipsToBounds = true
         imgView.backgroundColor = UIColor.clear
         return imgView
@@ -143,16 +151,14 @@ open class ParadisePhotoPreviewController: ParadiseViewController {
         
         self.view.translates(subViews: self.imageView, self.collectionView, self.bottomBar)
         
-        let barBottom: CGFloat = UIApplication.iPhoneX ? SafeAreaBottomPadding.iPhoneX.rawValue : 0
-        
         self.view.layout(
             0,
             |-0-self.imageView-0-|,
             self.collectionEdgeMargin,
             |-self.collectionEdgeMargin-self.collectionView.height(self.collectionHeight)-self.collectionEdgeMargin-|,
             self.collectionEdgeMargin,
-            |-0-self.bottomBar.height(48)-0-|,
-            barBottom
+            |-0-self.bottomBar.height(self.bottomHeight)-0-|,
+            self.barBottomMargin
         )
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
@@ -174,7 +180,7 @@ extension ParadisePhotoPreviewController: UICollectionViewDelegate, UICollection
         
         cell.backgroundColor = UIColor.clear
         cell.contentView.backgroundColor = cell.backgroundColor
-        cell.cornerRadius = 2
+        cell.cornerRadius = 3
         cell.clipsToBounds = true
         
         if let asset = self.dataSource?.previewer(self, assetForItemAt: indexPath.item) { // exists
@@ -182,14 +188,8 @@ extension ParadisePhotoPreviewController: UICollectionViewDelegate, UICollection
             switch asset.mediaType {
             case .unknown, .audio:
                 cell.thumbnailView.image = nil
-//                cell.detailLabel.text = nil
                 break
             default:
-//                if asset.mediaType == .video {
-//                    cell.detailLabel.text = asset.duration.formattedString//.format()
-//                } else {
-//                    cell.detailLabel.text = nil
-//                }
                 ParadiseMachine.request(image: .original, form: asset, sourceMode: nil, completion: { (results) in
                     if cell.tag == currentTag {
                         cell.thumbnailView.image = results.image
@@ -201,7 +201,6 @@ extension ParadisePhotoPreviewController: UICollectionViewDelegate, UICollection
         }
         
         cell.thumbnailView.image = nil
-//        cell.detailLabel.text = nil
         return cell
     }
     

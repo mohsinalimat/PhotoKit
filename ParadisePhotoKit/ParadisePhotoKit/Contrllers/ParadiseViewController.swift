@@ -78,7 +78,8 @@ open class ParadiseViewController: UIViewController {
         self.extendedLayout = false
         self.view.backgroundColor = UIColor.white
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .stop, target: self, action: #selector(closePanel))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.pinLeft, style: .plain, target: self, action: #selector(closePanel))
+//        UIBarButtonItem.init(barButtonSystemItem: .stop, target: self, action: #selector(closePanel))
     }
     
     @objc

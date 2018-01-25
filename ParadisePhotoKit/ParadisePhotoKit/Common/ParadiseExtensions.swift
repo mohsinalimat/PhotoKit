@@ -112,7 +112,7 @@ public extension Array where Element == ParadiseResult {
 internal extension UIViewController {
     internal var extendedLayout: Bool {
         set {
-            self.extendedLayoutIncludesOpaqueBars = !newValue
+            self.extendedLayoutIncludesOpaqueBars = newValue
             self.edgesForExtendedLayout = newValue ? .all : []
         }
         get {
