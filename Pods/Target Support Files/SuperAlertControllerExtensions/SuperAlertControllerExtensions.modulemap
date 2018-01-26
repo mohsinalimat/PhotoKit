@@ -1,0 +1,6 @@
+framework module SuperAlertControllerExtensions {
+  umbrella header "SuperAlertControllerExtensions-umbrella.h"
+
+  export *
+  module * { export * }
+}

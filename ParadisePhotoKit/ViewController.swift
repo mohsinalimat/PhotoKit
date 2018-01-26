@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SuperAlertController
+import SuperAlertControllerExtensions
 
 class ViewController: UITableViewController {
 
@@ -71,10 +73,20 @@ extension ViewController: ParadisePhotoKitDelegate {
     }
     
     public func alert(_ thing: Any) {
+        let t = "\(type(of: self))"
+        let m = "\(thing)"
+        let done = UIAlertAction.init(title: "Done", style: .default, handler: nil)
         self.presentedViewController?.dismiss(animated: true, completion: {
-            let controller = UIAlertController.init(title: "\(type(of: self))", message: "\(thing)", preferredStyle: .alert)
-            controller.addAction(UIAlertAction.init(title: "Done", style: .default, handler: nil))
-            self.present(controller, animated: true, completion: nil)
+            if let image = thing as? UIImage {
+                let controller = SuperAlertController.init(style: .alert, source: self.view, title: t, message: m, tintColor: nil)
+                controller.addImagePreview(image: image)
+                controller.addAction(done)
+                self.present(controller, animated: true, completion: nil)
+            } else {
+                let controller = UIAlertController.init(title: t, message: m, preferredStyle: .alert)
+                controller.addAction(done)
+                self.present(controller, animated: true, completion: nil)
+            }
         })
     }
 }

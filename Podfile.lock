@@ -1,12 +1,18 @@
 PODS:
   - JustLayout (1.2.1)
+  - SuperAlertController (1.1.0)
+  - SuperAlertControllerExtensions (1.0.0):
+    - SuperAlertController
 
 DEPENDENCIES:
   - JustLayout
+  - SuperAlertControllerExtensions
 
 SPEC CHECKSUMS:
   JustLayout: 3015f2e0d923f20cfa64ebf8830e2288e199486e
+  SuperAlertController: f4c22b1cf86664cbd8d61724dc9e9564e7564534
+  SuperAlertControllerExtensions: fba22ccbaae2a53fb8c1a7aae816f1e4a8870c68
 
-PODFILE CHECKSUM: 61773489a24e5d7ccdda0617817dffca765f365d
+PODFILE CHECKSUM: b84e456a54056b5f3ebaeab5e9c1f9a90ce64d08
 
 COCOAPODS: 1.4.0

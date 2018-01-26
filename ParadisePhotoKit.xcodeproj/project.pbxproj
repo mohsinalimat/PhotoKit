@@ -346,10 +346,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ParadisePhotoKit/Pods-ParadisePhotoKit-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/JustLayout/JustLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/SuperAlertController/SuperAlertController.framework",
+				"${BUILT_PRODUCTS_DIR}/SuperAlertControllerExtensions/SuperAlertControllerExtensions.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JustLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SuperAlertController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SuperAlertControllerExtensions.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
