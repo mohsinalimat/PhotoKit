@@ -137,6 +137,13 @@ open class ParadisePreviewController: ParadiseViewController {
         return button
     }()
     
+    internal lazy var doneButton: UIButton = {
+        let button = UIButton.init()
+        button.setImage(UIImage.pinRight?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = UIColor.white
+        return button
+    }()
+    
     internal let fakeNavigationBar: UIView = UIView.init()
     
     open override func viewDidLoad() {
@@ -170,9 +177,11 @@ open class ParadisePreviewController: ParadiseViewController {
         self.collectionView.dataSource = self
         
         self.fakeNavigationBar.left(0).right(0).height(44 + StatusBarHeight.default).top(0)
-        self.fakeNavigationBar.translates(subViews: self.backButton)
+        self.fakeNavigationBar.translates(subViews: self.backButton, self.doneButton)
         self.backButton.left(0).bottom(0).size(44)
+        self.doneButton.right(0).bottom(0).size(44)
         self.backButton.addTarget(self, action: #selector(closePanel), for: .touchUpInside)
+        self.doneButton.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
         self.fakeNavigationBar.backgroundColor = ParadisePhotoKitConfiguration.fakeBarColor
     }
     
@@ -215,7 +224,15 @@ extension ParadisePreviewController: UICollectionViewDelegate, UICollectionViewD
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedIndex = indexPath
         self.dataSource?.previewer(self, requestImageForItemAt: indexPath.item, completion: { (img) in
-            self.imageView.image = img
+            if let img = img {
+                if let current = self.imageView.image {
+                    if img != current {
+                        self.imageView.image = img
+                    }
+                } else {
+                    self.imageView.image = img
+                }
+            }
             self.collectionView.reloadSections([0])
         })
     }

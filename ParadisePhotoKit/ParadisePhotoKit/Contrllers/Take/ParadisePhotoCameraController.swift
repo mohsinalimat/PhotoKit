@@ -321,8 +321,8 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
                     if ParadisePhotoKitConfiguration.shouldAutoSavesImage {
                         UIImageSaveToCameraRoll(croppedUIImage)
                     }
-                    let result = ParadiseResult.init(source: self.sourceType, image: croppedUIImage, videoURL: nil, asset: nil, info: nil)
-                    delegate.delegate?.photoKit(delegate, didGetPhotos: [result], from: self.sourceType)
+//                    let result = ParadiseResult.init(source: self.sourceType, image: croppedUIImage, videoURL: nil, asset: nil, info: nil)
+//                    delegate.delegate?.photoKit(delegate, didGetPhotos: [result], from: self.sourceType)
                     
                     self.capturedImage = croppedUIImage
 //                    self.startCamera()

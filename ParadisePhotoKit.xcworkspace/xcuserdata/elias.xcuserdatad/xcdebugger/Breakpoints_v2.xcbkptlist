@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParadisePhotoKit/ParadisePhotoKit/Views/ParadiseImageView.swift"
-            timestampString = "538656052.740585"
+            filePath = "ParadisePhotoKit/ViewController.swift"
+            timestampString = "538658748.462003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
-            landmarkName = "initLayout()"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "photoKitUnauthorized(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParadisePhotoKit/ParadisePhotoKit/Views/ParadiseImageView.swift"
-            timestampString = "538656052.740944"
+            filePath = "ParadisePhotoKit/ViewController.swift"
+            timestampString = "538658748.462049"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "initLayout()"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "photoKitDidCancel(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParadisePhotoKit/ParadisePhotoKit/Views/ParadiseImageView.swift"
-            timestampString = "538656052.741159"
+            filePath = "ParadisePhotoKit/ViewController.swift"
+            timestampString = "538658748.4620889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "initLayout()"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "photoKit(_:didGetPhotos:from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParadisePhotoKit/ParadisePhotoKit/Views/ParadiseImageView.swift"
-            timestampString = "538656052.741364"
+            filePath = "ParadisePhotoKit/ViewController.swift"
+            timestampString = "538658748.462127"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "initLayout()"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "photoKit(_:didGetVideos:from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,29 +73,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParadisePhotoKit/ParadisePhotoKit/Views/ParadiseImageView.swift"
-            timestampString = "538656088.11843"
+            filePath = "ParadisePhotoKit/ParadisePhotoKit/Contrllers/Take/ParadisePhotoCameraController.swift"
+            timestampString = "538658783.5940289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "initLayout()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParadisePhotoKit/ParadisePhotoKit/Views/ParadiseImageView.swift"
-            timestampString = "538656088.985942"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "initLayout()"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
+            landmarkName = "shotButtonPressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -55,21 +55,27 @@ class ViewController: UITableViewController {
 extension ViewController: ParadisePhotoKitDelegate {
     
     func photoKitUnauthorized(_ photoKit: ParadisePhotoKit) {
-        print(#function)
+        alert(#function)
     }
     
     func photoKitDidCancel(_ photoKit: ParadisePhotoKit) {
-        print(#function)
+        alert(#function)
     }
     
     func photoKit(_ photoKit: ParadisePhotoKit, didGetPhotos photos: [ParadiseResult], from source: ParadiseSourceType) {
-        print(#function)
-        print(photos.images)
+        alert(photos.images)
     }
     
     func photoKit(_ photoKit: ParadisePhotoKit, didGetVideos videos: [ParadiseResult], from source: ParadiseSourceType) {
-        print(#function)
-        print(videos.videoURLs)
+        alert(videos.videoURLs)
+    }
+    
+    public func alert(_ thing: Any) {
+        self.presentedViewController?.dismiss(animated: true, completion: {
+            let controller = UIAlertController.init(title: "\(type(of: self))", message: "\(thing)", preferredStyle: .alert)
+            controller.addAction(UIAlertAction.init(title: "Done", style: .default, handler: nil))
+            self.present(controller, animated: true, completion: nil)
+        })
     }
 }
 
