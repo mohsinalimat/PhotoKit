@@ -1,5 +1,5 @@
 //
-//  ParadiseCameraController.swift
+//  Configuration.swift
 //  ParadisePhotoKit
 //
 //  Blog  : https://meniny.cn
@@ -57,31 +57,42 @@
 //
 //  total_hours_wasted_here = 0
 //
-//  Created by Elias Abel on 2018/1/24.
+//  Created by Elias Abel on 2018/1/19.
 //  Copyright © 2018年 Meniny Lab. All rights reserved.
 //
 
 import Foundation
-import Photos
-import JustLayout
+import UIKit
 
-open class ParadiseCameraController: ParadiseViewController, ParadiseSourceable {
+open class ParadisePhotoKitConfiguration {
+    open static var baseTintColor   = UIColor(red: 0.79, green: 0.78, blue: 0.78, alpha: 1)
+    open static var tintColor       = UIColor(red: 0.26, green: 0.25, blue: 0.25, alpha: 1)
+    open static var lightBackgroundColor = UIColor(red: 0.99, green: 0.99, blue: 0.99, alpha: 1)
+    open static var darkBackgroundColor = UIColor.black//UIColor(red: 0.26, green: 0.25, blue: 0.25, alpha: 1)
+    open static var borderColor     = UIColor(red: 0.64, green: 0.64, blue: 0.99, alpha: 1)
     
-    open var sourceType: ParadiseSourceType {
-        return ParadiseSourceType.camera(of: self.cameraType)
-    }
+    open static var fakeBarColor    = UIColor.init(white: 0, alpha: 0.6)
     
-    open let cameraType: ParadiseCameraType
+    open static var checkImage: UIImage?
+    open static var closeImage: UIImage?
+    open static var flashOnImage: UIImage?
+    open static var flashOffImage: UIImage?
+    open static var flipImage: UIImage?
+    open static var shotImage: UIImage?
     
-    public required init(type: ParadiseCameraType) {
-        self.cameraType = type
-        super.init(nibName: nil, bundle: nil)
-    }
+    open static var videoStartImage: UIImage?
+    open static var videoStopImage: UIImage?
     
-    public required init?(coder aDecoder: NSCoder) {
-        self.cameraType = .photo
-        super.init(coder: aDecoder)
-    }
+    open static var shouldAutoSavesImage: Bool = false
+    open static var shouldAutoSavesVideo: Bool = false
+    
+    open static var cameraRollTitle = "Library"
+    open static var cameraTitle     = "Photo"
+    open static var videoTitle      = "Video"
+    open static var titleFont       = UIFont(name: "AvenirNext-DemiBold", size: 15)
+    
+    open static var shouldAutoDismiss: Bool = true
+    
+    open static var autoConvertToMP4: Bool = true
 }
-
 

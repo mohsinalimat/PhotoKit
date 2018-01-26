@@ -1,5 +1,5 @@
 //
-//  ParadisePhotoPreviewController.swift
+//  ParadisePreviewController.swift
 //  ParadisePhotoKit
 //
 //  Blog  : https://meniny.cn
@@ -65,10 +65,12 @@ import Foundation
 import Photos
 import JustLayout
 
-open class ParadisePhotoPreviewController: ParadiseViewController {
+open class ParadisePreviewController: ParadiseViewController {
     
     open weak var dataSource: ParadisePhotoPreviewDataSource? = nil
     open weak var delegate: ParadisePhotoPreviewDelegate? = nil
+    
+    open var previewMode: ParadisePreviewMode = ParadisePreviewMode.photos
     
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -107,7 +109,7 @@ open class ParadisePhotoPreviewController: ParadiseViewController {
         let nib = UINib.init(nibName: identifier, bundle: Bundle.init(for: ParadisePhotoKit.self))
         collection.register(nib, forCellWithReuseIdentifier: identifier)
         collection.allowsSelection = true
-        collection.allowsMultipleSelection = true
+        collection.allowsMultipleSelection = false
         collection.backgroundColor = UIColor.clear
         return collection
     }()
@@ -128,27 +130,35 @@ open class ParadisePhotoPreviewController: ParadiseViewController {
         return bar
     }()
     
+    internal lazy var backButton: UIButton = {
+        let button = UIButton.init()
+        button.setImage(UIImage.pinLeft?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = UIColor.white
+        return button
+    }()
+    
+    internal let fakeNavigationBar: UIView = UIView.init()
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setupUIComponents()
         
-        if (self.dataSource?.numberOfItems(in: self) ?? 0) > 0 {
-            self.loadImage(at: IndexPath.init(item: 0, section: 0))
-        }
+        self.dataSource?.previewer(self, requestImageForItemAt: 0, completion: { (img) in
+            if self.imageView.image == nil {
+                self.imageView.image = img
+            }
+        })
     }
     
     open func setupUIComponents() {
         
-        self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage.pinRight, style: .plain, target: self, action: #selector(doneAction))
+        self.navigationController?.isNavigationBarHidden = true
+        self.view.backgroundColor = ParadisePhotoKitConfiguration.darkBackgroundColor
         
-        self.view.backgroundColor = UIColor.black
-        
-        self.view.translates(subViews: self.imageView, self.collectionView, self.bottomBar)
-        
+        self.view.translates(subViews: self.imageView, self.fakeNavigationBar, self.collectionView, self.bottomBar)
         self.view.layout(
-            0,
+            StatusBarHeight.default + 44,
             |-0-self.imageView-0-|,
             self.collectionEdgeMargin,
             |-self.collectionEdgeMargin-self.collectionView.height(self.collectionHeight)-self.collectionEdgeMargin-|,
@@ -158,45 +168,39 @@ open class ParadisePhotoPreviewController: ParadiseViewController {
         )
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        
+        self.fakeNavigationBar.left(0).right(0).height(44 + StatusBarHeight.default).top(0)
+        self.fakeNavigationBar.translates(subViews: self.backButton)
+        self.backButton.left(0).bottom(0).size(44)
+        self.backButton.addTarget(self, action: #selector(closePanel), for: .touchUpInside)
+        self.fakeNavigationBar.backgroundColor = ParadisePhotoKitConfiguration.fakeBarColor
     }
     
     @objc
     internal func doneAction() {
         self.delegate?.previewerDidFinish(self)
     }
+    
+    var selectedIndex: IndexPath = IndexPath.init(item: 0, section: 0)
 }
 
-extension ParadisePhotoPreviewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ParadisePreviewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier = ParadisePhotoPreviewCollectionViewCell.reusableCellIdentifier
         let cell = ParadisePhotoPreviewCollectionViewCell.reusableCell(dequeued: collectionView, identifier: identifier, for: indexPath)
         
-        let currentTag = cell.tag + 1
-        cell.tag = currentTag
-        
         cell.backgroundColor = UIColor.clear
         cell.contentView.backgroundColor = cell.backgroundColor
-        cell.cornerRadius = 3
         cell.clipsToBounds = true
         
-        if let asset = self.dataSource?.previewer(self, assetForItemAt: indexPath.item) { // exists
-            
-            switch asset.mediaType {
-            case .unknown, .audio:
-                cell.thumbnailView.image = nil
-                break
-            default:
-                ParadiseMachine.request(image: .original, form: asset, sourceMode: nil, completion: { (results) in
-                    if cell.tag == currentTag {
-                        cell.thumbnailView.image = results.image
-                    }
-                })
-                break
-            }
-            return cell
-        }
+        cell.selectionView.borderColor = ParadisePhotoKitConfiguration.borderColor
+        let borderWidth: CGFloat = (indexPath == self.selectedIndex) ? 2 : 0
+        cell.selectionView.borderWidth = borderWidth
         
-        cell.thumbnailView.image = nil
+        self.dataSource?.previewer(self, requestImageForItemAt: indexPath.item, completion: { (img) in
+            cell.thumbnailView.image = img
+        })
+        
         return cell
     }
     
@@ -209,36 +213,11 @@ extension ParadisePhotoPreviewController: UICollectionViewDelegate, UICollection
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.loadImage(at: indexPath)
-    }
-    
-    public func loadImage(at indexPath: IndexPath) {
-        if let asset = self.dataSource?.previewer(self, assetForItemAt: indexPath.item) {
-            if asset.isGIF {
-                ParadiseMachine.requestGIF(from: asset, completion: { (gif) in
-                    if let gif = gif {
-                        self.imageView.image = gif
-                    } else {
-                        self.loadImageFromCell(at: indexPath, asset: asset)
-                    }
-                })
-                return
-            }
-            self.loadImageFromCell(at: indexPath, asset: asset)
-        }
-    }
-    
-    public func loadImageFromCell(at indexPath: IndexPath, asset: PHAsset?) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ParadisePhotoPreviewCollectionViewCell,
-            let image = cell.thumbnailView.image else {
-                if let asset = asset {
-                    ParadiseMachine.request(image: .original, form: asset, sourceMode: nil, completion: { (result) in
-                        self.imageView.image = result.image
-                    })
-                }
-                return
-        }
-        self.imageView.image = image
+        self.selectedIndex = indexPath
+        self.dataSource?.previewer(self, requestImageForItemAt: indexPath.item, completion: { (img) in
+            self.imageView.image = img
+            self.collectionView.reloadSections([0])
+        })
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

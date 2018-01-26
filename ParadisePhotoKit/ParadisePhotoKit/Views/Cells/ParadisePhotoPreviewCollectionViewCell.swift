@@ -12,6 +12,7 @@ class ParadisePhotoPreviewCollectionViewCell: UICollectionViewCell {
 
     open static let reusableCellIdentifier = "ParadisePhotoPreviewCollectionViewCell"
     
+    @IBOutlet weak var selectionView: UIView!
     @IBOutlet weak var thumbnailView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()

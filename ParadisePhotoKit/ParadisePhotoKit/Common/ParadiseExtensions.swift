@@ -66,21 +66,101 @@ import UIKit
 import Photos
 import MobileCoreServices
 
+public func UIImageSaveToCameraRoll(_ image: UIImage, completion: ((Bool, Error?) -> Swift.Void)? = nil) {
+    PHPhotoLibrary.shared().performChanges({
+        PHAssetChangeRequest.creationRequestForAsset(from: image)
+    }, completionHandler: completion)
+}
+
+public extension UIColor {
+    public class func hexColor(_ hexStr: NSString, alpha: CGFloat) -> UIColor {
+        let realHexStr = hexStr.replacingOccurrences(of: "#", with: "")
+        let scanner = Scanner(string: realHexStr as String)
+        var color: UInt32 = 0
+        if scanner.scanHexInt32(&color) {
+            let r = CGFloat((color & 0xFF0000) >> 16) / 255
+            let g = CGFloat((color & 0x00FF00) >> 8) / 255
+            let b = CGFloat(color & 0x0000FF) / 255
+            return UIColor(red: r, green: g, blue: b, alpha: alpha)
+        } else {
+            print("invalid hex string", terminator: "")
+            return UIColor.white
+        }
+    }
+}
+
+public extension AVCaptureDevice {
+    public static var isCameraAvailable: Bool {
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        return status == AVAuthorizationStatus.authorized
+    }
+    
+    public enum CurrentFlashMode {
+        case off
+        case on
+        case auto
+    }
+    
+    @available(iOS 10.0, *)
+    public func getSettings(flashMode: CurrentFlashMode) -> AVCapturePhotoSettings {
+        let settings = AVCapturePhotoSettings()
+        
+        if self.hasFlash {
+            switch flashMode {
+            case .auto: settings.flashMode = .auto
+            case .on: settings.flashMode = .on
+            default: settings.flashMode = .off
+            }
+        }
+        return settings
+    }
+    
+    @available(iOS 10.0, *)
+    public static func deviceiOS10(_ types: [AVCaptureDevice.DeviceType] = [.builtInWideAngleCamera],
+                                   at position: AVCaptureDevice.Position,
+                                   mediaType: AVMediaType? = .video) -> AVCaptureDevice? {
+        let devicesIOS10 = AVCaptureDevice.DiscoverySession.init(deviceTypes: [.builtInWideAngleCamera], mediaType: mediaType, position: position)
+        for device in devicesIOS10.devices {
+            if device.position == position {
+                return device
+            }
+        }
+        return nil
+    }
+    
+    public static func device(at position: AVCaptureDevice.Position,
+                              mediaType: AVMediaType? = .video) -> AVCaptureDevice? {
+        let devices = AVCaptureDevice.devices()
+        for device in devices {
+            if device.position == position {
+                if let t = mediaType {
+                    if device.hasMediaType(t) {
+                        return device
+                    }
+                } else {
+                    return device
+                }
+            }
+        }
+        return nil
+    }
+}
+
 public extension UIImage {
     public static var arrowDropUp: UIImage? {
-        return UIImage.init(named: "arrow drop up")
+        return UIImage.init(named: "arrow_up")
     }
     
     public static var arrowDropDown: UIImage? {
-        return UIImage.init(named: "arrow drop down")
+        return UIImage.init(named: "arrow_down")
     }
     
     public static var pinRight: UIImage? {
-        return UIImage.init(named: "Pin ri")
+        return UIImage.init(named: "pin_right")
     }
     
     public static var pinLeft: UIImage? {
-        return UIImage.init(named: "Pin Left")
+        return UIImage.init(named: "pin_left")
     }
 }
 
@@ -98,7 +178,7 @@ public extension Array where Element == ParadiseResult {
     }
     
     public var assets: [PHAsset] {
-        return self.flatMap { (result) -> PHAsset in
+        return self.flatMap { (result) -> PHAsset? in
             return result.asset
         }
     }
@@ -208,6 +288,14 @@ internal extension UICollectionView {
 }
 
 internal extension UIView {
+    internal func addBottomBorder(_ color: UIColor, width: CGFloat) {
+        let border = CALayer()
+        border.borderColor = color.cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width, height: width)
+        border.borderWidth = width
+        self.layer.addSublayer(border)
+    }
+    
     @IBInspectable var shadowColor: CGColor? {
         get {
             return layer.shadowColor

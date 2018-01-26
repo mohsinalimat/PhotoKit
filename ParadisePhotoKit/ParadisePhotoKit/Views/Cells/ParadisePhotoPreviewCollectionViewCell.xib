@@ -23,16 +23,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </imageView>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zcd-xd-ElO">
+                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="fhx-Xo-MZz" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="3E8-jo-pg6"/>
                 <constraint firstAttribute="trailing" secondItem="fhx-Xo-MZz" secondAttribute="trailing" id="8KB-0u-HWM"/>
+                <constraint firstItem="Zcd-xd-ElO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="9Lk-Bt-jDJ"/>
                 <constraint firstItem="fhx-Xo-MZz" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Eb5-dn-1qP"/>
                 <constraint firstAttribute="bottom" secondItem="fhx-Xo-MZz" secondAttribute="bottom" id="GNT-2x-2C6"/>
+                <constraint firstAttribute="bottom" secondItem="Zcd-xd-ElO" secondAttribute="bottom" id="NJ6-sM-eGU"/>
+                <constraint firstItem="Zcd-xd-ElO" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="gZ6-f0-2ll"/>
+                <constraint firstAttribute="trailing" secondItem="Zcd-xd-ElO" secondAttribute="trailing" id="omF-id-e2C"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
+                <outlet property="selectionView" destination="Zcd-xd-ElO" id="eby-dg-UvD"/>
                 <outlet property="thumbnailView" destination="fhx-Xo-MZz" id="ofT-hW-doA"/>
             </connections>
         </collectionViewCell>

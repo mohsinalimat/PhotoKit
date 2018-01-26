@@ -100,10 +100,18 @@ public extension ParadisePhotoKitDelegate {
 }
 
 public protocol ParadisePhotoPreviewDataSource: class {
-    func previewer(_ previewController: ParadisePhotoPreviewController, assetForItemAt index: Int) -> PHAsset?
-    func numberOfItems(in previewController: ParadisePhotoPreviewController) -> Int
+    func numberOfItems(in previewController: ParadisePreviewController) -> Int
+    func previewer(_ previewController: ParadisePreviewController, assetForItemAt index: Int) -> PHAsset?
+    func previewer(_ previewController: ParadisePreviewController, requestImageForItemAt index: Int, completion: @escaping (_ image: UIImage?) -> Void)
+    func previewer(_ previewController: ParadisePreviewController, requestVideoForItemAt index: Int, completion: @escaping (_ path: URL?) -> Void)
+}
+
+public extension ParadisePhotoPreviewDataSource {
+    public func previewer(_ previewController: ParadisePreviewController, assetForItemAt index: Int) -> PHAsset? { return nil }
+    public func previewer(_ previewController: ParadisePreviewController, requestImageForItemAt index: Int, completion: @escaping (_ image: UIImage?) -> Void) {}
+    public func previewer(_ previewController: ParadisePreviewController, requestVideoForItemAt index: Int, completion: @escaping (_ path: URL?) -> Void) {}
 }
 
 public protocol ParadisePhotoPreviewDelegate: class {
-    func previewerDidFinish(_ previewController: ParadisePhotoPreviewController)
+    func previewerDidFinish(_ previewController: ParadisePreviewController)
 }

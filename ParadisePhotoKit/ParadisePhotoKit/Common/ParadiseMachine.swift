@@ -83,9 +83,10 @@ open class ParadiseMachine {
     
     open class func request(image: ParadiseImageType,
                             form asset: PHAsset,
+                            useCache: Bool = true,
                             sourceMode: ParadiseSourceType?,
                             completion: @escaping ImageRequestCompletion) {
-        self.request(images: image, form: [asset], sourceMode: sourceMode) { (results) in
+        self.request(images: image, form: [asset], useCache: useCache, sourceMode: sourceMode) { (results) in
             guard let r = results.first else {
                 completion(ParadiseResult.init(source: nil, image: nil, videoURL: nil, asset: asset, info: nil))
                 return
@@ -93,6 +94,11 @@ open class ParadiseMachine {
             completion(r)
         }
     }
+    
+    open static var imageCachingManager: PHCachingImageManager = {
+        let manager = PHCachingImageManager.init()
+        return manager
+    }()
     
     open static var imageRequestOptions: PHImageRequestOptions {
         let options = PHImageRequestOptions()
@@ -104,6 +110,7 @@ open class ParadiseMachine {
     
     open class func request(images: ParadiseImageType,
                             form assets: [PHAsset],
+                            useCache: Bool = true,
                             sourceMode: ParadiseSourceType?,
                             completion: @escaping MultiImageRequestCompletion) {
         
@@ -117,9 +124,10 @@ open class ParadiseMachine {
         let options = self.imageRequestOptions
         var results: [ParadiseResult] = []
         var counter: Int = 0
+        let manager: PHImageManager = useCache ? self.imageCachingManager : PHImageManager.default()
         for asset in assets {
             DispatchQueue.global(qos: .default).async(execute: {
-                PHImageManager.default().requestImage(for: asset, targetSize: images.size, contentMode: .aspectFill, options: options) { image, info in
+                manager.requestImage(for: asset, targetSize: images.size, contentMode: .aspectFill, options: options) { image, info in
                     counter += 1
                     results.append(ParadiseResult.init(source: sourceMode, image: image, videoURL: nil, asset: asset, info: info))
                     if counter == assets.count {

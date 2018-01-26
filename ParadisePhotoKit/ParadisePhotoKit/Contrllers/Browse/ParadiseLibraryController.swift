@@ -107,7 +107,9 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     internal let collectionEdgeMargin: CGFloat = 5
     internal let collectionItemMargin: CGFloat = 2
     
-    open lazy var imageManager: PHCachingImageManager = PHCachingImageManager.init()
+    open var imageManager: PHCachingImageManager {
+        return ParadiseMachine.imageCachingManager
+    }
     
     internal var _assets: PHFetchResult<PHAsset>?
     internal var _fullAssets: PHFetchResult<PHAsset>?
@@ -501,13 +503,10 @@ extension ParadiseLibraryController: UICollectionViewDelegate, UICollectionViewD
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier = ParadisePhotoSelectionCollectionViewCell.reusableCellIdentifier
         let cell = ParadisePhotoSelectionCollectionViewCell.reusableCell(dequeued: collectionView, identifier: identifier, for: indexPath)
-
-        let currentTag = cell.tag + 1
-        cell.tag = currentTag
         
-//        cell.onSelection = {
-//            self.selectItem(at: indexPath)
-//        }
+        cell.onSelection = {
+            self.collectionView(self.collectionView, didSelectItemAt: indexPath)
+        }
         
         let canBeSelected = self.selectedAssets.count < self.multiSelectionLimit
         
@@ -522,23 +521,14 @@ extension ParadiseLibraryController: UICollectionViewDelegate, UICollectionViewD
         }
         
         if let asset = self.asset(at: indexPath.item) {
-            switch asset.mediaType {
-            case .unknown, .audio:
-                cell.thumbnailView.image = nil
+            self.imageManager.requestImage(for: asset, targetSize: collectionCellSize, contentMode: .aspectFill, options: nil) { result, info in
+                cell.thumbnailView.image = result
+            }
+            
+            if asset.mediaType == .video {
+                cell.detailLabel.text = asset.duration.formattedString
+            } else {
                 cell.detailLabel.text = nil
-                break
-            default:
-                if asset.mediaType == .video {
-                    cell.detailLabel.text = asset.duration.formattedString//.format()
-                } else {
-                    cell.detailLabel.text = nil
-                }
-                self.imageManager.requestImage(for: asset, targetSize: collectionCellSize, contentMode: .aspectFill, options: nil) { result, info in
-                    if cell.tag == currentTag {
-                        cell.thumbnailView.image = result
-                    }
-                }
-                break
             }
             return cell
         }
@@ -599,21 +589,39 @@ extension ParadiseLibraryController: ParadisePhotoPreviewDelegate, ParadisePhoto
             return
         }
         
-        let preview = ParadisePhotoPreviewController.init()
+        let preview = ParadisePreviewController.init()
         preview.dataSource = self
         preview.delegate = self
         self.navigationController?.show(preview, sender: self)
     }
     
-    public func previewer(_ previewController: ParadisePhotoPreviewController, assetForItemAt index: Int) -> PHAsset? {
+    public func previewer(_ previewController: ParadisePreviewController, assetForItemAt index: Int) -> PHAsset? {
         return self.selectedAsset(at: index)
     }
     
-    public func numberOfItems(in previewController: ParadisePhotoPreviewController) -> Int {
+    public func previewer(_ previewController: ParadisePreviewController, requestImageForItemAt index: Int, completion: @escaping (UIImage?) -> Void) {
+        if let asset = self.selectedAsset(at: index) {
+            
+            if asset.isGIF {
+                ParadiseMachine.requestGIF(from: asset, completion: { (gif) in
+                    completion(gif)
+                })
+            } else {
+                ParadiseMachine.request(image: .original, form: asset, sourceMode: nil, completion: { (results) in
+                    completion(results.image)
+                })
+            }
+            
+        } else {
+            completion(nil)
+        }
+    }
+    
+    public func numberOfItems(in previewController: ParadisePreviewController) -> Int {
         return self.selectedAssets.count
     }
     
-    public func previewerDidFinish(_ previewController: ParadisePhotoPreviewController) {
+    public func previewerDidFinish(_ previewController: ParadisePreviewController) {
         self.finishSelection()
     }
 }

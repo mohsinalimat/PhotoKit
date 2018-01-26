@@ -68,11 +68,25 @@ import Photos
 internal enum SafeAreaBottomPadding: CGFloat {
     case normal = 0
     case iPhoneX = 16
+    
+    static var `default`: CGFloat {
+        if UIApplication.iPhoneX {
+            return self.iPhoneX.rawValue
+        }
+        return self.normal.rawValue
+    }
 }
 
 internal enum StatusBarHeight: CGFloat {
     case normal = 20
     case iPhoneX = 44
+    
+    static var `default`: CGFloat {
+        if UIApplication.iPhoneX {
+            return self.iPhoneX.rawValue
+        }
+        return self.normal.rawValue
+    }
 }
 
 internal extension UIApplication {
@@ -105,6 +119,24 @@ public enum ParadiseLibraryMediaType: String {
     
     public var localizedTitle: String {
         return NSLocalizedString("\(self.rawValue) Library", comment: "")
+    }
+}
+
+public enum ParadisePreviewMode: String {
+    case photos = "Photos"
+    case videos = "Videos"
+    
+    public var fetchAssetMediaType: PHAssetMediaType {
+        switch self {
+        case .photos:
+            return PHAssetMediaType.image
+        default:
+            return PHAssetMediaType.video
+        }
+    }
+    
+    public var localizedTitle: String {
+        return NSLocalizedString("\(self.rawValue) Preview", comment: "")
     }
 }
 
@@ -169,10 +201,10 @@ public struct ParadiseResult {
     public let source: ParadiseSourceType?
     public let image: UIImage?
     public let videoURL: URL?
-    public let asset: PHAsset
+    public let asset: PHAsset?
     public let info: [AnyHashable: Any]?
     public var isGIF: Bool {
-        return self.asset.isGIF
+        return self.asset?.isGIF ?? false
     }
 }
 

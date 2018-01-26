@@ -65,6 +65,7 @@ import Foundation
 import UIKit
 
 open class ParadiseViewController: UIViewController {
+    
     open var multiSelectionLimit: Int {
         let pk = self.photoKit
         let limit = pk?.multiSelectionLimit
@@ -76,7 +77,7 @@ open class ParadiseViewController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.extendedLayout = false
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = ParadisePhotoKitConfiguration.lightBackgroundColor
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.pinLeft, style: .plain, target: self, action: #selector(closePanel))
 //        UIBarButtonItem.init(barButtonSystemItem: .stop, target: self, action: #selector(closePanel))
