@@ -78,13 +78,10 @@ open class ParadiseViewController: UIViewController {
         super.viewDidLoad()
         self.extendedLayout = false
         self.view.backgroundColor = ParadisePhotoKitConfiguration.lightBackgroundColor
-        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.pinLeft, style: .plain, target: self, action: #selector(closePanel))
-//        UIBarButtonItem.init(barButtonSystemItem: .stop, target: self, action: #selector(closePanel))
     }
     
     @objc
-    internal func closePanel() {
+    internal func closePanelByCancel() {
         if let pk = self.photoKit {
             pk.delegate?.photoKitDidCancel(pk)
         }

@@ -83,15 +83,15 @@ open class ParadisePhotoKitConfiguration {
     open static var videoStartImage: UIImage?
     open static var videoStopImage: UIImage?
     
-    open static var shouldAutoSavesImage: Bool = false
-    open static var shouldAutoSavesVideo: Bool = false
+    open static var shouldAutoSavesImage: Bool = true
+    open static var shouldAutoSavesVideo: Bool = true
     
     open static var cameraRollTitle = "Library"
     open static var cameraTitle     = "Photo"
     open static var videoTitle      = "Video"
     open static var titleFont       = UIFont(name: "AvenirNext-DemiBold", size: 15)
     
-    open static var shouldAutoDismiss: Bool = true
+//    open static var shouldAutoDismiss: Bool = true
     
     open static var autoConvertToMP4: Bool = true
 }

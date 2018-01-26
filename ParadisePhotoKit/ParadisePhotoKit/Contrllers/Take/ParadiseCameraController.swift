@@ -1,5 +1,5 @@
 //
-//  ParadisePhotoCameraController.swift
+//  ParadiseCameraController.swift
 //  ParadisePhotoKit
 //
 //  Blog  : https://meniny.cn
@@ -66,7 +66,7 @@ import Photos
 import JustLayout
 import CoreMotion
 
-open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSourceable, UIGestureRecognizerDelegate {
+open class ParadiseCameraController: ParadiseViewController, ParadiseSourceable, UIGestureRecognizerDelegate {
     
     open var sourceType: ParadiseSourceType {
         return ParadiseSourceType.camera(of: self.cameraType)
@@ -101,18 +101,21 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
     
     internal var initialCaptureDevicePosition: AVCaptureDevice.Position = .back
     
-//    weak var delegate: HHCameraViewDelegate? = nil
+    internal var isRecording = false
     
     internal var session: AVCaptureSession?
     internal var device: AVCaptureDevice?
     internal var videoInput: AVCaptureDeviceInput?
     internal var imageOutput: AVCaptureStillImageOutput?
     internal var videoLayer: AVCaptureVideoPreviewLayer?
+    internal var videoOutput: AVCaptureMovieFileOutput?
     
     internal var focusView: UIView?
     
     internal var flashOffImage: UIImage?
     internal var flashOnImage: UIImage?
+    internal var videoStartImage: UIImage?
+    internal var videoStopImage: UIImage?
     
     internal var motionManager: CMMotionManager?
     internal var currentDeviceOrientation: UIDeviceOrientation?
@@ -140,7 +143,7 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
         self.fakeNavigationBar.left(0).right(0).height(44 + StatusBarHeight.default).top(0)
         self.fakeNavigationBar.translates(subViews: self.backButton)
         self.backButton.left(0).bottom(0).size(44)
-        self.backButton.addTarget(self, action: #selector(closePanel), for: .touchUpInside)
+        self.backButton.addTarget(self, action: #selector(closePanelByCancel), for: .touchUpInside)
         self.fakeNavigationBar.backgroundColor = ParadisePhotoKitConfiguration.fakeBarColor
         
         self.buttonsContainer.translates(subViews: self.shotButton, self.flipButton, self.flashButton)
@@ -151,22 +154,34 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
         
         let bundle = Bundle(for: self.classForCoder)
         
-        flashOnImage = ParadisePhotoKitConfiguration.flashOnImage ?? UIImage(named: "ic_flash_on", in: bundle, compatibleWith: nil)
-        flashOffImage = ParadisePhotoKitConfiguration.flashOffImage ?? UIImage(named: "ic_flash_off", in: bundle, compatibleWith: nil)
-        let flipImage = ParadisePhotoKitConfiguration.flipImage ?? UIImage(named: "ic_loop", in: bundle, compatibleWith: nil)
-        let shotImage = ParadisePhotoKitConfiguration.shotImage ?? UIImage(named: "ic_shutter", in: bundle, compatibleWith: nil)
-        
         flashButton.tintColor = ParadisePhotoKitConfiguration.baseTintColor
         flipButton.tintColor  = ParadisePhotoKitConfiguration.baseTintColor
         shotButton.tintColor  = ParadisePhotoKitConfiguration.baseTintColor
         
+        flashOnImage = ParadisePhotoKitConfiguration.flashOnImage ?? UIImage(named: "ic_flash_on", in: bundle, compatibleWith: nil)
+        flashOffImage = ParadisePhotoKitConfiguration.flashOffImage ?? UIImage(named: "ic_flash_off", in: bundle, compatibleWith: nil)
+        let flipImage = ParadisePhotoKitConfiguration.flipImage ?? UIImage(named: "ic_loop", in: bundle, compatibleWith: nil)
+        
         flashButton.setImage(flashOffImage?.withRenderingMode(.alwaysTemplate), for: .normal)
         flipButton.setImage(flipImage?.withRenderingMode(.alwaysTemplate), for: .normal)
-        shotButton.setImage(shotImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+        
+        if self.isPhotoMode {
+            let shotImage = ParadisePhotoKitConfiguration.shotImage ?? UIImage(named: "ic_shutter", in: bundle, compatibleWith: nil)
+            shotButton.setImage(shotImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+        } else {
+            videoStartImage = ParadisePhotoKitConfiguration.videoStartImage ?? UIImage(named: "ic_shutter", in: bundle, compatibleWith: nil)
+            videoStopImage = ParadisePhotoKitConfiguration.videoStopImage ?? UIImage(named: "ic_shutter_recording", in: bundle, compatibleWith: nil)
+            shotButton.setImage(videoStartImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+            shotButton.setImage(videoStopImage?.withRenderingMode(.alwaysTemplate), for: .disabled)
+        }
         
         self.view.layoutIfNeeded()
         
         self.initialize()
+    }
+    
+    internal var isPhotoMode: Bool {
+        return self.sourceType == ParadiseSourceType.camera(of: ParadiseCameraType.photo)
     }
     
     internal func initialize() {
@@ -203,9 +218,25 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
             videoInput = _videoInput
             session.addInput(videoInput!)
             
-            imageOutput = AVCaptureStillImageOutput()
-            
-            session.addOutput(imageOutput!)
+            if self.isPhotoMode  {
+                imageOutput = AVCaptureStillImageOutput()
+                if session.canAddOutput(imageOutput!) {
+                    session.addOutput(imageOutput!)
+                }
+                session.sessionPreset = AVCaptureSession.Preset.photo
+                
+            } else {
+                videoOutput = AVCaptureMovieFileOutput()
+                let totalSeconds = 60.0 // Total Seconds of capture time
+                let timeScale: Int32 = 30 // FPS
+                let maxDuration = CMTimeMakeWithSeconds(totalSeconds, timeScale)
+                videoOutput?.maxRecordedDuration = maxDuration
+                // SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
+                videoOutput?.minFreeDiskSpaceLimit = 1024 * 1024
+                if session.canAddOutput(videoOutput!) {
+                    session.addOutput(videoOutput!)
+                }
+            }
             
             videoLayer = AVCaptureVideoPreviewLayer.init(session: session)
             videoLayer?.frame = self.previewViewContainer.bounds
@@ -214,8 +245,6 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
             if let vl = self.videoLayer {
                 self.previewViewContainer.layer.addSublayer(vl)
             }
-            
-            session.sessionPreset = AVCaptureSession.Preset.photo
             
             session.startRunning()
             
@@ -238,7 +267,7 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
     }
     
     @objc func willEnterForegroundNotification(_ notification: Notification) {
-        startCamera()
+        self.startCamera()
     }
     
     open override func viewDidLayoutSubviews() {
@@ -269,7 +298,7 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
             }
             break
         case .denied, .restricted:
-            stopCamera()
+            self.stopCamera()
             break
         default:
             break
@@ -282,57 +311,117 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
         currentDeviceOrientation = nil
     }
     
+    func toggleRecording() {
+        guard let videoOutput = videoOutput else { return }
+        
+        self.isRecording = !self.isRecording
+        let shotImage = self.isRecording ? videoStopImage : videoStartImage
+        self.shotButton.setImage(shotImage, for: UIControlState())
+        
+        if self.isRecording {
+            
+            let outputPath = "\(NSTemporaryDirectory())output.mov"
+            let outputURL = URL(fileURLWithPath: outputPath)
+            
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: outputPath) {
+                
+                do {
+                    try fileManager.removeItem(atPath: outputPath)
+                } catch {
+                    print("error removing item at path: \(outputPath)")
+                    self.isRecording = false
+                    return
+                }
+            }
+            
+            self.flipButton.isEnabled = false
+            self.flashButton.isEnabled = false
+            videoOutput.startRecording(to: outputURL, recordingDelegate: self)
+            
+        } else {
+            
+            videoOutput.stopRecording()
+            self.flipButton.isEnabled = true
+            self.flashButton.isEnabled = true
+        }
+    }
+    
     @objc
     func shotButtonPressed(_ sender: UIButton) {
+        if self.isPhotoMode {
+            guard let imageOutput = imageOutput else {
+                return
+            }
+            DispatchQueue.global(qos: .default).async(execute: { () -> Void in
+                if let videoConnection = imageOutput.connection(with: AVMediaType.video) {
+                    self.captureStillImage(from: videoConnection)
+                }
+            })
+        } else {
+            self.toggleRecording()
+        }
+    }
+    
+    func captureStillImage(from connection: AVCaptureConnection) {
         guard let imageOutput = imageOutput else {
             return
         }
         
-        DispatchQueue.global(qos: .default).async(execute: { () -> Void in
-            let videoConnection = imageOutput.connection(with: AVMediaType.video)
+        imageOutput.captureStillImageAsynchronously(from: connection) { (buffer, error) -> Void in
             
-            imageOutput.captureStillImageAsynchronously(from: videoConnection!) { (buffer, error) -> Void in
-                
-                self.stopCamera()
-                
-                guard let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer!),
-                    let image = UIImage(data: data),
-                    let cgImage = image.cgImage,
-                    let delegate = self.photoKit,
-                    let videoLayer = self.videoLayer else {
-                        self.startCamera()
-                        return
-                }
-                
-                let rect   = videoLayer.metadataOutputRectConverted(fromLayerRect: videoLayer.bounds)
-                let width  = CGFloat(cgImage.width)
-                let height = CGFloat(cgImage.height)
-                
-                let cropRect = CGRect(x: rect.origin.x * width,
-                                      y: rect.origin.y * height,
-                                      width: rect.size.width * width,
-                                      height: rect.size.height * height)
-                
-                guard let img = cgImage.cropping(to: cropRect) else { return }
-                
-                let croppedUIImage = UIImage(cgImage: img, scale: 1.0, orientation: image.imageOrientation)
-                
-                DispatchQueue.main.async {
-                    if ParadisePhotoKitConfiguration.shouldAutoSavesImage {
-                        UIImageSaveToCameraRoll(croppedUIImage)
-                    }
-//                    let result = ParadiseResult.init(source: self.sourceType, image: croppedUIImage, videoURL: nil, asset: nil, info: nil)
-//                    delegate.delegate?.photoKit(delegate, didGetPhotos: [result], from: self.sourceType)
-                    
-                    self.capturedImage = croppedUIImage
-//                    self.startCamera()
-                    self.preview()
-                }
+            guard let buffer = buffer else {
+                return
             }
-        })
+            
+            self.stopCamera()
+            
+            guard let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer),
+                let image = UIImage(data: data),
+                let cgImage = image.cgImage,
+                let delegate = self.photoKit,
+                let videoLayer = self.videoLayer else {
+                    self.startCamera()
+                    return
+            }
+            
+            let rect   = videoLayer.metadataOutputRectConverted(fromLayerRect: videoLayer.bounds)
+            let width  = CGFloat(cgImage.width)
+            let height = CGFloat(cgImage.height)
+            
+            let cropRect = CGRect(x: rect.origin.x * width,
+                                  y: rect.origin.y * height,
+                                  width: rect.size.width * width,
+                                  height: rect.size.height * height)
+            
+            guard let img = cgImage.cropping(to: cropRect) else {
+                self.startCamera()
+                return
+            }
+            
+            let croppedUIImage = UIImage(cgImage: img, scale: 1.0, orientation: image.imageOrientation)
+            
+            DispatchQueue.main.async {
+                self.saveAndPreviewImage(croppedUIImage)
+            }
+        }
     }
     
-    open var capturedImage: UIImage? = nil
+    func saveAndPreviewImage(_ image: UIImage) {
+        self.startCamera()
+        if ParadisePhotoKitConfiguration.shouldAutoSavesImage {
+            UIImageSaveToCameraRoll(image)
+        }
+        //                    let result = ParadisePhotoResult.init(source: self.sourceType, image: croppedUIImage, videoURL: nil, asset: nil, info: nil)
+        //                    delegate.delegate?.photoKit(delegate, didGetPhotos: [result], from: self.sourceType)
+        
+        self.capturedImage = image
+        //                    self.startCamera()
+        self.preview()
+    }
+    
+    open internal(set) var capturedImage: UIImage?
+    open internal(set) var outputFileURL: URL?
     
     @objc
     func flipButtonPressed(_ sender: UIButton) {
@@ -400,12 +489,34 @@ open class ParadisePhotoCameraController: ParadiseViewController, ParadiseSource
     }
 }
 
-internal extension ParadisePhotoCameraController {
+extension ParadiseCameraController: AVCaptureFileOutputRecordingDelegate {
+    
+    public func fileOutput(_ captureOutput: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
+    }
+    
+    public func fileOutput(_ captureOutput: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        if ParadisePhotoKitConfiguration.autoConvertToMP4 {
+            ParadiseMachine.mp4(from: outputFileURL, completion: { (mp4, error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.outputFileURL = mp4
+                    self.preview()
+                }
+            })
+        } else {
+            self.outputFileURL = outputFileURL
+            self.preview()
+        }
+    }
+}
+
+internal extension ParadiseCameraController {
     @objc
     internal func focus(_ recognizer: UITapGestureRecognizer) {
         let point = recognizer.location(in: self.view)
         let viewsize = self.view.bounds.size
-        let newPoint = CGPoint(x: point.y/viewsize.height, y: 1.0-point.x/viewsize.width)
+        let newPoint = CGPoint(x: point.y / viewsize.height, y: 1 - point.x / viewsize.width)
         
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
             return
@@ -449,14 +560,14 @@ internal extension ParadisePhotoCameraController {
     }
     
     func flashConfiguration() {
+        guard let device = device, device.hasFlash else {
+            return
+        }
         do {
-            if let device = device {
-                guard device.hasFlash else { return }
-                try device.lockForConfiguration()
-                device.flashMode = AVCaptureDevice.FlashMode.off
-                flashButton.setImage(flashOffImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
-                device.unlockForConfiguration()
-            }
+            try device.lockForConfiguration()
+            device.flashMode = AVCaptureDevice.FlashMode.off
+            flashButton.setImage(flashOffImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+            device.unlockForConfiguration()
         } catch _ {
             return
         }
@@ -464,13 +575,20 @@ internal extension ParadisePhotoCameraController {
     
 }
 
-extension ParadisePhotoCameraController: ParadisePhotoPreviewDelegate, ParadisePhotoPreviewDataSource {
+extension ParadiseCameraController: ParadisePhotoPreviewDelegate, ParadisePhotoPreviewDataSource {
     
     @objc
     internal func preview() {
+        DispatchQueue.main.async {
+            self._preview()
+        }
+    }
+    
+    internal func _preview() {
         let preview = ParadisePreviewController.init()
         preview.dataSource = self
         preview.delegate = self
+        preview.previewMode = self.isPhotoMode ? ParadisePreviewMode.photos : ParadisePreviewMode.videos
         self.navigationController?.show(preview, sender: self)
     }
     
@@ -484,10 +602,17 @@ extension ParadisePhotoCameraController: ParadisePhotoPreviewDelegate, ParadiseP
     
     public func previewerDidFinish(_ previewController: ParadisePreviewController) {
         if let pk = self.photoKit {
-            let result = ParadiseResult.init(source: self.sourceType, image: self.capturedImage, videoURL: nil, asset: nil, info: nil)
-            pk.delegate?.photoKit(pk, didGetPhotos: [result], from: self.sourceType)
+            if let image = self.capturedImage {
+                pk.delegate?.photoKit(pk, didCapturePhoto: image, from: self.sourceType)
+                self.dismiss(animated: true, completion: nil)
+            } else if let url = self.outputFileURL {
+                pk.delegate?.photoKit(pk, didCaptureVideo: url, from: self.sourceType)
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.closePanelByCancel()
+            }
         } else {
-            self.closePanel()
+            self.closePanelByCancel()
         }
     }
 }

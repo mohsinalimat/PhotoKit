@@ -9,6 +9,7 @@
 import UIKit
 import SuperAlertController
 import SuperAlertControllerExtensions
+import Photos
 
 class ViewController: UITableViewController {
 
@@ -64,22 +65,31 @@ extension ViewController: ParadisePhotoKitDelegate {
         alert(#function)
     }
     
-    func photoKit(_ photoKit: ParadisePhotoKit, didGetPhotos photos: [ParadiseResult], from source: ParadiseSourceType) {
+    func photoKit(_ photoKit: ParadisePhotoKit, didSelectPhotos photos: [ParadisePhotoResult], from source: ParadiseSourceType) {
+        
         alert(photos.images)
     }
     
-    func photoKit(_ photoKit: ParadisePhotoKit, didGetVideos videos: [ParadiseResult], from source: ParadiseSourceType) {
-        alert(videos.videoURLs)
+    func photoKit(_ photoKit: ParadisePhotoKit, didCapturePhoto photo: UIImage, from source: ParadiseSourceType) {
+        alert([photo])
     }
     
+    func photoKit(_ photoKit: ParadisePhotoKit, didSelectVideos videos: [ParadiseVideoResult], from source: ParadiseSourceType) {
+        alert(videos.images)
+    }
+    
+    func photoKit(_ photoKit: ParadisePhotoKit, didCaptureVideo videoFile: URL, from source: ParadiseSourceType) {
+        alert(videoFile)
+    }
+
     public func alert(_ thing: Any) {
         let t = "\(type(of: self))"
         let m = "\(thing)"
         let done = UIAlertAction.init(title: "Done", style: .default, handler: nil)
         self.presentedViewController?.dismiss(animated: true, completion: {
-            if let images = thing as? [UIImage], let image = images.first {
+            if let images = thing as? [UIImage] {
                 let controller = SuperAlertController.init(style: .alert, source: self.view, title: t, message: m, tintColor: nil)
-                controller.addImagePreview(image: image)
+                controller.addImagePicker(.horizontal, paging: true, images: images)
                 controller.addAction(done)
                 self.present(controller, animated: true, completion: nil)
             } else {

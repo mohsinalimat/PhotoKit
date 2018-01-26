@@ -71,9 +71,13 @@ public protocol ParadiseSourceable: class {
 
 public protocol ParadisePhotoKitDelegate: class {
     /// Required function
-    func photoKit(_ photoKit: ParadisePhotoKit, didGetPhotos photos: [ParadiseResult], from source: ParadiseSourceType)
+    func photoKit(_ photoKit: ParadisePhotoKit, didSelectPhotos photos: [ParadisePhotoResult], from source: ParadiseSourceType)
     /// Required function
-    func photoKit(_ photoKit: ParadisePhotoKit, didGetVideos videos: [ParadiseResult], from source: ParadiseSourceType)
+    func photoKit(_ photoKit: ParadisePhotoKit, didCapturePhoto photo: UIImage, from source: ParadiseSourceType)
+    /// Required function
+    func photoKit(_ photoKit: ParadisePhotoKit, didSelectVideos videos: [ParadiseVideoResult], from source: ParadiseSourceType)
+    /// Required function
+    func photoKit(_ photoKit: ParadisePhotoKit, didCaptureVideo videoFile: URL, from source: ParadiseSourceType)
     
     /// Optional function
     func photoKitDidCancel(_ photoKit: ParadisePhotoKit)

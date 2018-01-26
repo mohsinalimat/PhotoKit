@@ -97,14 +97,7 @@ open class ParadisePhotoKit {
             self.multiSelectionLimit = limit
             break
         case .camera(of: let type):
-            switch type {
-            case .photo:
-                self.controller = ParadisePhotoCameraController.init(type: type)
-                break
-            case .video:
-                self.controller = ParadiseVideoCameraController.init(type: type)
-                break
-            }
+            self.controller = ParadiseCameraController.init(type: type)
             break
         }
     }

@@ -234,6 +234,22 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
         self.counterLabel.text = "\(self.selectedAssets.count) / \(self.multiSelectionLimit)"
     }
     
+    internal lazy var backButton: UIButton = {
+        let button = UIButton.init()
+        button.setImage(UIImage.pinLeft?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = UIColor.black
+        return button
+    }()
+    
+    internal lazy var doneButton: UIButton = {
+        let button = UIButton.init()
+        button.setImage(UIImage.pinRight?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = UIColor.black
+        return button
+    }()
+    
+    internal let fakeNavigationBar: UIView = UIView.init()
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -253,25 +269,45 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
             } else {
                 if let pk = self.photoKit {
                     pk.delegate?.photoKitUnauthorized(pk)
+                    self.dismiss(animated: true, completion: nil)
                 }
             }
         }
     }
     
     open func setupUIComponents() {
+        
+        self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = UIColor(red:0.99, green:1.00, blue:1.00, alpha:1.00)
         self.updateTitle()
         
-        self.view.translates(subViews: self.collectionView, self.tableViewShadowView, self.tableViewShadowExtendedButton, self.tableView)
-        self.view.layout(
-            self.collectionEdgeMargin,
-            |-self.collectionEdgeMargin-self.collectionView-self.collectionEdgeMargin-|,
-            self.collectionEdgeMargin
-        )
+        self.view.translates(subViews: self.collectionView, self.tableViewShadowView, self.tableViewShadowExtendedButton, self.tableView, self.fakeNavigationBar)
+        
+        self.fakeNavigationBar.left(0).right(0).height(44 + StatusBarHeight.default).top(0)
+        self.fakeNavigationBar.translates(subViews: self.backButton, self.doneButton, self.albumButton, self.counterLabel)
+        self.backButton.left(0).bottom(0).size(44)
+        self.doneButton.right(0).bottom(0).size(44)
+        self.albumButton.leftAttribute == self.backButton.rightAttribute
+        self.albumButton.bottom(0).width(>=0).height(44)
+        self.counterLabel.rightAttribute == self.doneButton.leftAttribute
+        self.counterLabel.bottom(0).width(>=0).height(44)
+        self.backButton.addTarget(self, action: #selector(closePanelByCancel), for: .touchUpInside)
+        self.doneButton.addTarget(self, action: #selector(preview), for: .touchUpInside)
+        self.fakeNavigationBar.backgroundColor = UIColor.white
+        self.fakeNavigationBar.clipsToBounds = false
+        self.fakeNavigationBar.shadowOffset = CGSize.init(width: 0, height: 2)
+        self.fakeNavigationBar.shadowColor = UIColor.init(white: 0, alpha: 0.1).cgColor
+        self.fakeNavigationBar.shadowOpacity = 2
+        self.fakeNavigationBar.shadowRadius = 1
+        
+        self.collectionView.left(self.collectionEdgeMargin).right(self.collectionEdgeMargin)
+        self.collectionView.bottom(self.collectionEdgeMargin)
+        self.collectionView.topAttribute == self.fakeNavigationBar.bottomAttribute + self.collectionEdgeMargin
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
-        self.tableView.top(-self.tableViewHeight).left(0).right(0).height(self.tableViewHeight)
+        self.tableView.left(0).right(0).height(self.tableViewHeight)
+        self.tableView.topAttribute == self.fakeNavigationBar.bottomAttribute - self.tableViewHeight
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
@@ -290,21 +326,21 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     }()
     
     open func setupBarButtonItems(hasAlbum: Bool) {
-        let previewItem = UIBarButtonItem.init(image: UIImage.pinRight, style: .plain, target: self, action: #selector(preview))
-        let counterItem = UIBarButtonItem.init(customView: self.counterLabel)
-        self.navigationItem.rightBarButtonItems = [previewItem, counterItem]
-        
-        if hasAlbum {
-            let albumItem = UIBarButtonItem.init(customView: self.albumButton)
-            
-            if let closeItem = self.navigationItem.leftBarButtonItem {
-                self.navigationItem.leftBarButtonItems = [closeItem, albumItem]
-            } else {
-                let closeItem = UIBarButtonItem.init(image: UIImage.pinLeft, style: .plain, target: self, action: #selector(closePanel))
-//                UIBarButtonItem.init(barButtonSystemItem: .stop, target: self, action: #selector(closePanel))
-                self.navigationItem.leftBarButtonItems = [closeItem, albumItem]
-            }
-        }
+//        let previewItem = UIBarButtonItem.init(image: UIImage.pinRight, style: .plain, target: self, action: #selector(preview))
+//        let counterItem = UIBarButtonItem.init(customView: self.counterLabel)
+//        self.navigationItem.rightBarButtonItems = [previewItem, counterItem]
+//
+//        if hasAlbum {
+//            let albumItem = UIBarButtonItem.init(customView: self.albumButton)
+//
+//            if let closeItem = self.navigationItem.leftBarButtonItem {
+//                self.navigationItem.leftBarButtonItems = [closeItem, albumItem]
+//            } else {
+//                let closeItem = UIBarButtonItem.init(image: UIImage.pinLeft, style: .plain, target: self, action: #selector(closePanelByCancel))
+////                UIBarButtonItem.init(barButtonSystemItem: .stop, target: self, action: #selector(closePanelByCancel))
+//                self.navigationItem.leftBarButtonItems = [closeItem, albumItem]
+//            }
+//        }
     }
     
     open func setupAlbums() {
@@ -334,10 +370,15 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     internal func finishSelection() {
         if let pk = self.photoKit {
             let collection = self.selectedAssets
-            ParadiseMachine.request(images: .original, form: collection, sourceMode: self.sourceType, completion: { (results) in
-                pk.delegate?.photoKit(pk, didGetPhotos: results, from: self.sourceType)
+            if self.mediaType == .photos {
+                ParadiseMachine.request(images: .original, form: collection, sourceMode: self.sourceType, completion: { (results) in
+                    pk.delegate?.photoKit(pk, didSelectPhotos: results, from: self.sourceType)
+                    self.dismiss(animated: true, completion: nil)
+                })
+            } else {
+                // FIXME: VIDEOS
                 self.dismiss(animated: true, completion: nil)
-            })
+            }
         } else {
             self.dismiss(animated: true, completion: nil)
         }
@@ -585,13 +626,19 @@ extension ParadiseLibraryController: ParadisePhotoPreviewDelegate, ParadisePhoto
             self.hideAlbumList()
         }
         guard !self.selectedAssets.isEmpty else {
-            self.closePanel()
+            self.closePanelByCancel()
             return
         }
+        DispatchQueue.main.async {
+            self._preview()
+        }
+    }
         
+    internal func _preview() {
         let preview = ParadisePreviewController.init()
         preview.dataSource = self
         preview.delegate = self
+        preview.previewMode = (self.mediaType == .photos) ? ParadisePreviewMode.photos : ParadisePreviewMode.videos
         self.navigationController?.show(preview, sender: self)
     }
     
@@ -607,6 +654,7 @@ extension ParadiseLibraryController: ParadisePhotoPreviewDelegate, ParadisePhoto
                     completion(gif)
                 })
             } else {
+                // FIXME: VIDEO
                 ParadiseMachine.request(image: .original, form: asset, sourceMode: nil, completion: { (results) in
                     completion(results.image)
                 })

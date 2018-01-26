@@ -64,9 +64,10 @@
 import Foundation
 import UIKit
 import Photos
-
-public typealias ImageRequestCompletion = (_ result: ParadiseResult) -> Swift.Void
-public typealias MultiImageRequestCompletion = (_ result: [ParadiseResult]) -> Swift.Void
+public typealias ParadisePhotoResult = (image: UIImage?, asset: PHAsset?)
+public typealias ParadiseVideoResult = (url: URL?, image: UIImage?, asset: PHAsset?)
+public typealias ImageRequestCompletion = (_ result: ParadisePhotoResult) -> Swift.Void
+public typealias MultiImageRequestCompletion = (_ results: [ParadisePhotoResult]) -> Swift.Void
 
 open class ParadiseMachine {
     
@@ -88,7 +89,7 @@ open class ParadiseMachine {
                             completion: @escaping ImageRequestCompletion) {
         self.request(images: image, form: [asset], useCache: useCache, sourceMode: sourceMode) { (results) in
             guard let r = results.first else {
-                completion(ParadiseResult.init(source: nil, image: nil, videoURL: nil, asset: asset, info: nil))
+                completion((image: nil, asset: asset))
                 return
             }
             completion(r)
@@ -122,14 +123,14 @@ open class ParadiseMachine {
         }
         
         let options = self.imageRequestOptions
-        var results: [ParadiseResult] = []
+        var results: [ParadisePhotoResult] = []
         var counter: Int = 0
         let manager: PHImageManager = useCache ? self.imageCachingManager : PHImageManager.default()
         for asset in assets {
             DispatchQueue.global(qos: .default).async(execute: {
                 manager.requestImage(for: asset, targetSize: images.size, contentMode: .aspectFill, options: options) { image, info in
                     counter += 1
-                    results.append(ParadiseResult.init(source: sourceMode, image: image, videoURL: nil, asset: asset, info: info))
+                    results.append((image, asset))
                     if counter == assets.count {
                         DispatchQueue.main.async(execute: {
                             completion(results)

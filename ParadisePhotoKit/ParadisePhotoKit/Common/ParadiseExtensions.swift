@@ -164,16 +164,10 @@ public extension UIImage {
     }
 }
 
-public extension Array where Element == ParadiseResult {
+public extension Array where Element == ParadisePhotoResult {
     public var images: [UIImage] {
         return self.flatMap { (result) -> UIImage? in
             return result.image
-        }
-    }
-    
-    public var videoURLs: [URL] {
-        return self.flatMap { (result) -> URL? in
-            return result.videoURL
         }
     }
     
@@ -182,10 +176,24 @@ public extension Array where Element == ParadiseResult {
             return result.asset
         }
     }
+}
+
+public extension Array where Element == ParadiseVideoResult {
+    public var images: [UIImage] {
+        return self.flatMap { (result) -> UIImage? in
+            return result.image
+        }
+    }
     
-    public var informations: [[AnyHashable: Any]] {
-        return self.flatMap { (result) -> [AnyHashable: Any]? in
-            return result.info
+    public var urls: [URL] {
+        return self.flatMap { (result) -> URL? in
+            return result.url
+        }
+    }
+    
+    public var assets: [PHAsset] {
+        return self.flatMap { (result) -> PHAsset? in
+            return result.asset
         }
     }
 }

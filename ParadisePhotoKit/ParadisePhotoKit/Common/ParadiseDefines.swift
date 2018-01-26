@@ -196,18 +196,6 @@ public enum ParadiseVideoFormat: String {
     }
 }
 
-/// The picking result object
-public struct ParadiseResult {
-    public let source: ParadiseSourceType?
-    public let image: UIImage?
-    public let videoURL: URL?
-    public let asset: PHAsset?
-    public let info: [AnyHashable: Any]?
-    public var isGIF: Bool {
-        return self.asset?.isGIF ?? false
-    }
-}
-
 public enum ParadiseImageType: Equatable {
     case thumbnail(size: CGSize)
     case original

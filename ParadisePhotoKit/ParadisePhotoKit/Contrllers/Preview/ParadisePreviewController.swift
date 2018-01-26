@@ -180,7 +180,7 @@ open class ParadisePreviewController: ParadiseViewController {
         self.fakeNavigationBar.translates(subViews: self.backButton, self.doneButton)
         self.backButton.left(0).bottom(0).size(44)
         self.doneButton.right(0).bottom(0).size(44)
-        self.backButton.addTarget(self, action: #selector(closePanel), for: .touchUpInside)
+        self.backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         self.doneButton.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
         self.fakeNavigationBar.backgroundColor = ParadisePhotoKitConfiguration.fakeBarColor
     }
@@ -188,6 +188,11 @@ open class ParadisePreviewController: ParadiseViewController {
     @objc
     internal func doneAction() {
         self.delegate?.previewerDidFinish(self)
+    }
+    
+    @objc
+    internal func backAction() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     var selectedIndex: IndexPath = IndexPath.init(item: 0, section: 0)
