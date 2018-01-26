@@ -77,7 +77,7 @@ extension ViewController: ParadisePhotoKitDelegate {
         let m = "\(thing)"
         let done = UIAlertAction.init(title: "Done", style: .default, handler: nil)
         self.presentedViewController?.dismiss(animated: true, completion: {
-            if let image = thing as? UIImage {
+            if let images = thing as? [UIImage], let image = images.first {
                 let controller = SuperAlertController.init(style: .alert, source: self.view, title: t, message: m, tintColor: nil)
                 controller.addImagePreview(image: image)
                 controller.addAction(done)
