@@ -301,7 +301,7 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
         self.fakeNavigationBar.shadowRadius = 1
         
         self.collectionView.left(self.collectionEdgeMargin).right(self.collectionEdgeMargin)
-        self.collectionView.bottom(self.collectionEdgeMargin)
+        self.collectionView.bottom(self.collectionEdgeMargin + SafeAreaBottomPadding.default)
         self.collectionView.topAttribute == self.fakeNavigationBar.bottomAttribute + self.collectionEdgeMargin
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
@@ -592,7 +592,20 @@ extension ParadiseLibraryController: UICollectionViewDelegate, UICollectionViewD
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let countPerRow = 3
+        let countPerRow: Int
+        if UIDevice.current.orientation.isLandscape {
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                countPerRow = 6
+            } else {
+                countPerRow = 12
+            }
+        } else {
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                countPerRow = 3
+            } else {
+                countPerRow = 6
+            }
+        }
         let width = (collectionView.frame.width - CGFloat(countPerRow - 1) * self.collectionItemMargin) / CGFloat(countPerRow)
         return CGSize(width: width, height: width)
     }
@@ -743,7 +756,3 @@ extension ParadiseLibraryController: UITableViewDelegate, UITableViewDataSource 
         }
     }
 }
-
-
-
-
