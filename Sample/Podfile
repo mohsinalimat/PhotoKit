@@ -1,6 +1,6 @@
 platform :ios, '9.0'
 
-target 'PhotoKit' do
+target 'ParadisePhotoKit' do
   use_frameworks!
   
   pod 'PhotoKit', :path => '../'
