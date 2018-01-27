@@ -12,6 +12,8 @@ import JustLayout
 
 open class ParadiseVideoPlayerView: UIView {
 
+    private var periodicTimeObserver: Any?
+    
     open var url: URL? {
         didSet {
             
@@ -30,7 +32,7 @@ open class ParadiseVideoPlayerView: UIView {
                 let player = AVPlayer.init(playerItem: playerItem)
                 self.player = player
                 
-                player.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 20), queue: DispatchQueue.main) { [weak self] (time: CMTime) in
+                self.periodicTimeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 20), queue: DispatchQueue.main) { [weak self] (time: CMTime) in
                     
                     let currentTime = CMTimeGetSeconds(time)
                     let totalTime = CMTimeGetSeconds(playerItem.duration)
@@ -83,7 +85,9 @@ open class ParadiseVideoPlayerView: UIView {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        self.player?.removeTimeObserver(self)
+        if let observer = self.periodicTimeObserver {
+            self.player?.removeTimeObserver(observer)
+        }
     }
     private var availableDuration: TimeInterval {
         if let loadedTimeRanges = self.player?.currentItem?.loadedTimeRanges, let timeRange = loadedTimeRanges.first?.timeRangeValue {

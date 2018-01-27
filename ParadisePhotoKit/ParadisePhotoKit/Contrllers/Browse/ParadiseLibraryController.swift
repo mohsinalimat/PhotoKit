@@ -665,6 +665,24 @@ extension ParadiseLibraryController: ParadisePhotoPreviewDelegate, ParadisePhoto
         }
     }
     
+    public func previewer(_ previewController: ParadisePreviewController, requestVideoForItemAt index: Int, completion: @escaping (URL?) -> Void) {
+        if let asset = self.selectedAsset(at: index) {
+            PHImageManager.default().requestAVAsset(forVideo: asset, options: ParadiseMachine.videoRequestOptions, resultHandler: { (avAsset, _, _) in
+                DispatchQueue.main.async {
+                    if let URLAsset = avAsset as? AVURLAsset {
+                        completion(URLAsset.url)
+                    } else {
+                        completion(nil)
+                    }
+                }
+            })
+        } else {
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+        }
+    }
+    
     public func numberOfItems(in previewController: ParadisePreviewController) -> Int {
         return self.selectedAssets.count
     }

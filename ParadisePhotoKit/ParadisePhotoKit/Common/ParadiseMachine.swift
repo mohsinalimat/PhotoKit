@@ -106,6 +106,15 @@ open class ParadiseMachine {
         options.deliveryMode = .highQualityFormat
         options.isNetworkAccessAllowed = true
         options.resizeMode = .exact
+        options.version = .current
+        return options
+    }
+    
+    open static var videoRequestOptions: PHVideoRequestOptions {
+        let options = PHVideoRequestOptions()
+        options.deliveryMode = .automatic
+        options.isNetworkAccessAllowed = true
+        options.version = .current
         return options
     }
     
@@ -138,7 +147,9 @@ open class ParadiseMachine {
                     }
                 }
             })
+            
         }
+        
     }
     
     open class func requestGIF(from asset: PHAsset, completion: @escaping (_ gif: UIImage?) -> Void) {
