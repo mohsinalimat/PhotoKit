@@ -22,7 +22,16 @@
 
 `PhotoKit` is an elegant image picker for iOS.
 
-![preview.jpg](./Assets/preview.jpg)
+<table>
+<tr>
+<td><img src="./Assets/camera.jpg"></td>
+<td><img src="./Assets/video.jpg"></td>
+</tr>
+<tr>
+<td><img src="./Assets/photos.jpg"></td>
+<td><img src="./Assets/photo_preview.jpg"></td>
+</tr>
+</table>
 
 ## Requirements
 
