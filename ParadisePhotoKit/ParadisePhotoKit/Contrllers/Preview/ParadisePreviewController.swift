@@ -163,9 +163,12 @@ open class ParadisePreviewController: ParadiseViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = ParadisePhotoKitConfiguration.darkBackgroundColor
         
+        let naviHeight: CGFloat = 44
+        let fakeNaviHeight = StatusBarHeight.default + naviHeight
+        
         self.view.translates(subViews: self.imageView, self.fakeNavigationBar, self.collectionView, self.bottomBar)
         self.view.layout(
-            StatusBarHeight.default + 44,
+            fakeNaviHeight,
             |-0-self.imageView-0-|,
             self.collectionEdgeMargin,
             |-self.collectionEdgeMargin-self.collectionView.height(self.collectionHeight)-self.collectionEdgeMargin-|,
@@ -176,10 +179,10 @@ open class ParadisePreviewController: ParadiseViewController {
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
-        self.fakeNavigationBar.left(0).right(0).height(44 + StatusBarHeight.default).top(0)
+        self.fakeNavigationBar.left(0).right(0).height(fakeNaviHeight).top(0)
         self.fakeNavigationBar.translates(subViews: self.backButton, self.doneButton)
-        self.backButton.left(0).bottom(0).size(44)
-        self.doneButton.right(0).bottom(0).size(44)
+        self.backButton.left(0).bottom(0).size(naviHeight)
+        self.doneButton.right(0).bottom(0).size(naviHeight)
         self.backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         self.doneButton.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
         self.fakeNavigationBar.backgroundColor = ParadisePhotoKitConfiguration.fakeBarColor

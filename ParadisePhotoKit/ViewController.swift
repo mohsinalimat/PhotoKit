@@ -75,11 +75,11 @@ extension ViewController: ParadisePhotoKitDelegate {
     }
     
     func photoKit(_ photoKit: ParadisePhotoKit, didSelectVideos videos: [ParadiseVideoResult], from source: ParadiseSourceType) {
-        alert(videos.images)
+        alert(videos.urls)
     }
     
     func photoKit(_ photoKit: ParadisePhotoKit, didCaptureVideo videoFile: URL, from source: ParadiseSourceType) {
-        alert(videoFile)
+        alert([videoFile])
     }
 
     public func alert(_ thing: Any) {
@@ -88,11 +88,21 @@ extension ViewController: ParadisePhotoKitDelegate {
         let done = UIAlertAction.init(title: "Done", style: .default, handler: nil)
         self.presentedViewController?.dismiss(animated: true, completion: {
             if let images = thing as? [UIImage] {
+                
                 let controller = SuperAlertController.init(style: .alert, source: self.view, title: t, message: m, tintColor: nil)
-                controller.addImagePicker(.horizontal, paging: true, images: images)
+                controller.addImagePicker(.horizontal, paging: true, height: 250, images: images)
                 controller.addAction(done)
                 self.present(controller, animated: true, completion: nil)
+                
+            } else if let videos = thing as? [URL], let video = videos.first {
+                
+                let controller = SuperAlertController.init(style: .alert, source: self.view, title: t, message: m, tintColor: nil)
+                controller.addVideoPlayer(url: video, ratio: 1)
+                controller.addAction(done)
+                self.present(controller, animated: true, completion: nil)
+                
             } else {
+                
                 let controller = UIAlertController.init(title: t, message: m, preferredStyle: .alert)
                 controller.addAction(done)
                 self.present(controller, animated: true, completion: nil)

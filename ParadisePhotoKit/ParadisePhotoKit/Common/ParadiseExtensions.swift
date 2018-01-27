@@ -72,6 +72,25 @@ public func UIImageSaveToCameraRoll(_ image: UIImage, completion: ((Bool, Error?
     }, completionHandler: completion)
 }
 
+public func UIVideoSaveToCameraRoll(_ path: URL, completion: ((Bool, Error?) -> Swift.Void)? = nil) {
+    PHPhotoLibrary.shared().performChanges({
+        PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: path)
+    }, completionHandler: completion)
+}
+
+public func thumbnail(of video: URL) -> UIImage? {
+    do {
+        let asset = AVURLAsset(url: video, options: nil)
+        let imgGenerator = AVAssetImageGenerator(asset: asset)
+        imgGenerator.appliesPreferredTrackTransform = true
+        let cgImage = try imgGenerator.copyCGImage(at: CMTimeMakeWithSeconds(0.01, 24), actualTime: nil)
+        let uiImage = UIImage(cgImage: cgImage)
+        return uiImage
+    } catch {
+        return nil
+    }
+}
+
 public extension UIColor {
     public class func hexColor(_ hexStr: NSString, alpha: CGFloat) -> UIColor {
         let realHexStr = hexStr.replacingOccurrences(of: "#", with: "")

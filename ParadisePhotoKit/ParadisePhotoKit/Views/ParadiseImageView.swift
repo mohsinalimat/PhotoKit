@@ -106,28 +106,37 @@ open class ParadiseImageView: UIScrollView {
             if imageSize.width > imageSize.height {
                 // center horizontally
                 if frameToCenter.size.width < bounds.width {
-                    let x = fabs((bounds.width - frameToCenter.size.width) / 2)
+                    let x = (bounds.width - frameToCenter.size.width) / 2
                     frameToCenter.origin.x = x
                 } else {
                     frameToCenter.size.width = bounds.width
                     frameToCenter.size.height = frameToCenter.height * (bounds.width / frameToCenter.width)
                     frameToCenter.origin.x = 0
-                    let y = fabs((bounds.height - frameToCenter.height) / 2)
+                    let y = (bounds.height - frameToCenter.height) / 2
                     frameToCenter.origin.y = y
                 }
             } else {
                 if frameToCenter.size.height < bounds.height {
-                    let y = fabs((bounds.height - frameToCenter.size.height) / 2)
+                    let y = (bounds.height - frameToCenter.size.height) / 2
                     frameToCenter.origin.y = y
                 } else {
                     frameToCenter.size.width = frameToCenter.width * (bounds.height / frameToCenter.height)
                     frameToCenter.size.height = bounds.height
                     frameToCenter.origin.y = 0
-                    let x = fabs((bounds.width - frameToCenter.width) / 2)
+                    let x = (bounds.width - frameToCenter.width) / 2
                     frameToCenter.origin.x = x
                 }
             }
         }
+        
+        if frameToCenter.origin.y < 0 {
+            frameToCenter.origin.y = 0
+        }
+        
+        if frameToCenter.origin.x < 0 {
+            frameToCenter.origin.x = 0
+        }
+        
         unwrappedZoomView.frame = frameToCenter
     }
     

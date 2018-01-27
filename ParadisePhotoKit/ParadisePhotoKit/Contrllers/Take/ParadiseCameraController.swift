@@ -495,11 +495,19 @@ extension ParadiseCameraController: AVCaptureFileOutputRecordingDelegate {
     }
     
     public func fileOutput(_ captureOutput: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        
+        self.shotButton.isUserInteractionEnabled = false
+        self.flashButton.isUserInteractionEnabled = false
+        self.flipButton.isUserInteractionEnabled = false
+        
         if ParadisePhotoKitConfiguration.autoConvertToMP4 {
             ParadiseMachine.mp4(from: outputFileURL, completion: { (mp4, error) in
                 if let error = error {
                     print(error)
                 } else {
+                    if ParadisePhotoKitConfiguration.shouldAutoSavesVideo {
+                        UIVideoSaveToCameraRoll(mp4)
+                    }
                     self.outputFileURL = mp4
                     self.preview()
                 }
@@ -590,14 +598,31 @@ extension ParadiseCameraController: ParadisePhotoPreviewDelegate, ParadisePhotoP
         preview.delegate = self
         preview.previewMode = self.isPhotoMode ? ParadisePreviewMode.photos : ParadisePreviewMode.videos
         self.navigationController?.show(preview, sender: self)
+        
+        self.shotButton.isUserInteractionEnabled = true
+        self.flashButton.isUserInteractionEnabled = true
+        self.flipButton.isUserInteractionEnabled = true
     }
     
     public func previewer(_ previewController: ParadisePreviewController, requestImageForItemAt index: Int, completion: @escaping (UIImage?) -> Void) {
-        completion(self.capturedImage)
+        if let image = self.capturedImage {
+            completion(image)
+        } else if let path = self.outputFileURL {
+            let image = thumbnail(of: path)
+            completion(image)
+        } else {
+            completion(nil)
+        }
     }
     
     public func numberOfItems(in previewController: ParadisePreviewController) -> Int {
-        return (self.capturedImage == nil) ? 0 : 1
+        if self.capturedImage != nil {
+            return 1
+        }
+        if self.outputFileURL != nil {
+            return 1
+        }
+        return 0
     }
     
     public func previewerDidFinish(_ previewController: ParadisePreviewController) {
