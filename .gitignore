@@ -70,3 +70,4 @@ fastlane/screenshots
 fastlane/test_output
 /Pods/SuperAlertControllerExtensions/*
 /Pods/*
+ParadisePhotoKit.xcodeproj/xcuserdata/Meniny.xcuserdatad/xcschemes/xcschememanagement.plist
