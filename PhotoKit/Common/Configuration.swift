@@ -1,6 +1,6 @@
 //
 //  Configuration.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Blog  : https://meniny.cn
 //  Github: https://github.com/Meniny
@@ -64,7 +64,7 @@
 import Foundation
 import UIKit
 
-open class ParadisePhotoKitConfiguration {
+open class PhotoKitConfiguration {
     open static var baseTintColor   = UIColor(red: 0.79, green: 0.78, blue: 0.78, alpha: 1)
     open static var tintColor       = UIColor(red: 0.26, green: 0.25, blue: 0.25, alpha: 1)
     open static var lightBackgroundColor = UIColor(red: 0.99, green: 0.99, blue: 0.99, alpha: 1)

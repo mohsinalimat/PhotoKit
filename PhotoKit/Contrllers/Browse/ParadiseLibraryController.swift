@@ -1,6 +1,6 @@
 //
 //  ParadiseLibraryController.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Blog  : https://meniny.cn
 //  Github: https://github.com/Meniny
@@ -94,7 +94,7 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
     open lazy var collectionView: UICollectionView = {
         let collection = UICollectionView.init(frame: .zero, collectionViewLayout: self.collectionFlowLayout)
         let identifier = ParadisePhotoSelectionCollectionViewCell.reusableCellIdentifier
-        let nib = UINib.init(nibName: identifier, bundle: Bundle.init(for: ParadisePhotoKit.self))
+        let nib = UINib.init(nibName: identifier, bundle: Bundle.init(for: PhotoKit.self))
         collection.register(nib, forCellWithReuseIdentifier: identifier)
         collection.allowsSelection = true
         collection.allowsMultipleSelection = true
@@ -194,7 +194,7 @@ open class ParadiseLibraryController: ParadiseViewController, ParadiseSourceable
         table.clipsToBounds = true
         table.separatorInset = UIEdgeInsets.zero
         let identifier = ParadiseAlbumListTableViewCell.reusableCellIdentifier
-        let nib = UINib.init(nibName: identifier, bundle: Bundle.init(for: ParadisePhotoKit.self))
+        let nib = UINib.init(nibName: identifier, bundle: Bundle.init(for: PhotoKit.self))
         table.register(nib, forCellReuseIdentifier: identifier)
         return table
     }()

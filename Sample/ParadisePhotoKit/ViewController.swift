@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Created by 李二狗 on 2018/1/24.
 //  Copyright © 2018年 Meniny Lab. All rights reserved.
@@ -46,7 +46,7 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let type = sources[indexPath.row]
-        let photoKit = ParadisePhotoKit.init(source: type)
+        let photoKit = PhotoKit.init(source: type)
         photoKit.delegate = self
         photoKit.presented(by: self, animated: true) {
             print(self)
@@ -55,30 +55,30 @@ class ViewController: UITableViewController {
 
 }
 
-extension ViewController: ParadisePhotoKitDelegate {
+extension ViewController: PhotoKitDelegate {
     
-    func photoKitUnauthorized(_ photoKit: ParadisePhotoKit) {
+    func photoKitUnauthorized(_ photoKit: PhotoKit) {
         alert(#function)
     }
     
-    func photoKitDidCancel(_ photoKit: ParadisePhotoKit) {
+    func photoKitDidCancel(_ photoKit: PhotoKit) {
         alert(#function)
     }
     
-    func photoKit(_ photoKit: ParadisePhotoKit, didSelectPhotos photos: [ParadisePhotoResult], from source: ParadiseSourceType) {
+    func photoKit(_ photoKit: PhotoKit, didSelectPhotos photos: [ParadisePhotoResult], from source: ParadiseSourceType) {
         
         alert(photos.images)
     }
     
-    func photoKit(_ photoKit: ParadisePhotoKit, didCapturePhoto photo: UIImage, from source: ParadiseSourceType) {
+    func photoKit(_ photoKit: PhotoKit, didCapturePhoto photo: UIImage, from source: ParadiseSourceType) {
         alert([photo])
     }
     
-    func photoKit(_ photoKit: ParadisePhotoKit, didSelectVideos videos: [ParadiseVideoResult], from source: ParadiseSourceType) {
+    func photoKit(_ photoKit: PhotoKit, didSelectVideos videos: [ParadiseVideoResult], from source: ParadiseSourceType) {
         alert(videos.urls)
     }
     
-    func photoKit(_ photoKit: ParadisePhotoKit, didCaptureVideo videoFile: URL, from source: ParadiseSourceType) {
+    func photoKit(_ photoKit: PhotoKit, didCaptureVideo videoFile: URL, from source: ParadiseSourceType) {
         alert([videoFile])
     }
 

@@ -1,6 +1,6 @@
 //
 //  ParadiseCameraController.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Blog  : https://meniny.cn
 //  Github: https://github.com/Meniny
@@ -126,7 +126,7 @@ open class ParadiseCameraController: ParadiseViewController, ParadiseSourceable,
         
         self.navigationController?.isNavigationBarHidden = true
         
-        self.view.backgroundColor = ParadisePhotoKitConfiguration.darkBackgroundColor
+        self.view.backgroundColor = PhotoKitConfiguration.darkBackgroundColor
         
         let bottomBarHeight: CGFloat = 140
         let bottomBarMargin: CGFloat = SafeAreaBottomPadding.default
@@ -145,33 +145,31 @@ open class ParadiseCameraController: ParadiseViewController, ParadiseSourceable,
         self.fakeNavigationBar.translates(subViews: self.backButton)
         self.backButton.left(0).bottom(0).size(44)
         self.backButton.addTarget(self, action: #selector(closePanelByCancel), for: .touchUpInside)
-        self.fakeNavigationBar.backgroundColor = ParadisePhotoKitConfiguration.fakeBarColor
+        self.fakeNavigationBar.backgroundColor = PhotoKitConfiguration.fakeBarColor
         
         self.buttonsContainer.translates(subViews: self.shotButton, self.flipButton, self.flashButton)
-        self.buttonsContainer.backgroundColor = ParadisePhotoKitConfiguration.fakeBarColor
+        self.buttonsContainer.backgroundColor = PhotoKitConfiguration.fakeBarColor
         self.flashButton.top(16).left(16).size(24)
         self.flipButton.top(16).right(16).size(24)
         self.shotButton.centerHorizontally().centerVertically(-SafeAreaBottomPadding.default)
         
-        let bundle = Bundle(for: self.classForCoder)
+        flashButton.tintColor = PhotoKitConfiguration.baseTintColor
+        flipButton.tintColor  = PhotoKitConfiguration.baseTintColor
+        shotButton.tintColor  = PhotoKitConfiguration.baseTintColor
         
-        flashButton.tintColor = ParadisePhotoKitConfiguration.baseTintColor
-        flipButton.tintColor  = ParadisePhotoKitConfiguration.baseTintColor
-        shotButton.tintColor  = ParadisePhotoKitConfiguration.baseTintColor
-        
-        flashOnImage = ParadisePhotoKitConfiguration.flashOnImage ?? UIImage(named: "ic_flash_on", in: bundle, compatibleWith: nil)
-        flashOffImage = ParadisePhotoKitConfiguration.flashOffImage ?? UIImage(named: "ic_flash_off", in: bundle, compatibleWith: nil)
-        let flipImage = ParadisePhotoKitConfiguration.flipImage ?? UIImage(named: "ic_loop", in: bundle, compatibleWith: nil)
+        flashOnImage = PhotoKitConfiguration.flashOnImage ?? UIImage(photoKit: "ic_flash_on")
+        flashOffImage = PhotoKitConfiguration.flashOffImage ?? UIImage(photoKit: "ic_flash_off")
+        let flipImage = PhotoKitConfiguration.flipImage ?? UIImage(photoKit: "ic_loop")
         
         flashButton.setImage(flashOffImage?.withRenderingMode(.alwaysTemplate), for: .normal)
         flipButton.setImage(flipImage?.withRenderingMode(.alwaysTemplate), for: .normal)
         
         if self.isPhotoMode {
-            let shotImage = ParadisePhotoKitConfiguration.shotImage ?? UIImage(named: "ic_shutter", in: bundle, compatibleWith: nil)
+            let shotImage = PhotoKitConfiguration.shotImage ?? UIImage(photoKit: "ic_shutter")
             shotButton.setImage(shotImage?.withRenderingMode(.alwaysTemplate), for: .normal)
         } else {
-            videoStartImage = ParadisePhotoKitConfiguration.videoStartImage ?? UIImage(named: "ic_shutter", in: bundle, compatibleWith: nil)
-            videoStopImage = ParadisePhotoKitConfiguration.videoStopImage ?? UIImage(named: "ic_shutter_recording", in: bundle, compatibleWith: nil)
+            videoStartImage = PhotoKitConfiguration.videoStartImage ?? UIImage(photoKit: "ic_shutter")
+            videoStopImage = PhotoKitConfiguration.videoStopImage ?? UIImage(photoKit: "ic_shutter_recording")
             shotButton.setImage(videoStartImage?.withRenderingMode(.alwaysTemplate), for: .normal)
             shotButton.setImage(videoStopImage?.withRenderingMode(.alwaysTemplate), for: .disabled)
         }
@@ -417,7 +415,7 @@ open class ParadiseCameraController: ParadiseViewController, ParadiseSourceable,
     
     func saveAndPreviewImage(_ image: UIImage) {
         self.startCamera()
-        if ParadisePhotoKitConfiguration.shouldAutoSavesImage {
+        if PhotoKitConfiguration.shouldAutoSavesImage {
             UIImageSaveToCameraRoll(image)
         }
         //                    let result = ParadisePhotoResult.init(source: self.sourceType, image: croppedUIImage, videoURL: nil, asset: nil, info: nil)
@@ -508,12 +506,12 @@ extension ParadiseCameraController: AVCaptureFileOutputRecordingDelegate {
         self.flashButton.isUserInteractionEnabled = false
         self.flipButton.isUserInteractionEnabled = false
         
-        if ParadisePhotoKitConfiguration.autoConvertToMP4 {
+        if PhotoKitConfiguration.autoConvertToMP4 {
             ParadiseMachine.mp4(from: outputFileURL, completion: { (mp4, error) in
                 if let error = error {
                     print(error)
                 } else {
-                    if ParadisePhotoKitConfiguration.shouldAutoSavesVideo {
+                    if PhotoKitConfiguration.shouldAutoSavesVideo {
                         UIVideoSaveToCameraRoll(mp4)
                     }
                     self.outputFileURL = mp4

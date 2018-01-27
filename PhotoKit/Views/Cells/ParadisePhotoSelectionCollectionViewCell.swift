@@ -1,6 +1,6 @@
 //
 //  ParadisePhotoSelectionCollectionViewCell.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Created by 李二狗 on 2018/1/24.
 //  Copyright © 2018年 Meniny Lab. All rights reserved.

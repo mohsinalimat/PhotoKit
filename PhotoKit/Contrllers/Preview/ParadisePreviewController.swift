@@ -1,6 +1,6 @@
 //
 //  ParadisePreviewController.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Blog  : https://meniny.cn
 //  Github: https://github.com/Meniny
@@ -107,7 +107,7 @@ open class ParadisePreviewController: ParadiseViewController {
     open lazy var collectionView: UICollectionView = {
         let collection = UICollectionView.init(frame: .zero, collectionViewLayout: self.collectionFlowLayout)
         let identifier = ParadisePhotoPreviewCollectionViewCell.reusableCellIdentifier
-        let nib = UINib.init(nibName: identifier, bundle: Bundle.init(for: ParadisePhotoKit.self))
+        let nib = UINib.init(nibName: identifier, bundle: Bundle.init(for: PhotoKit.self))
         collection.register(nib, forCellWithReuseIdentifier: identifier)
         collection.allowsSelection = true
         collection.allowsMultipleSelection = false
@@ -174,7 +174,7 @@ open class ParadisePreviewController: ParadiseViewController {
     open func setupUIComponents() {
         
         self.navigationController?.isNavigationBarHidden = true
-        self.view.backgroundColor = ParadisePhotoKitConfiguration.darkBackgroundColor
+        self.view.backgroundColor = PhotoKitConfiguration.darkBackgroundColor
         
         let naviHeight: CGFloat = 44
         let fakeNaviHeight = StatusBarHeight.default + naviHeight
@@ -205,7 +205,7 @@ open class ParadisePreviewController: ParadiseViewController {
         self.doneButton.right(0).bottom(0).size(naviHeight)
         self.backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         self.doneButton.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
-        self.fakeNavigationBar.backgroundColor = ParadisePhotoKitConfiguration.fakeBarColor
+        self.fakeNavigationBar.backgroundColor = PhotoKitConfiguration.fakeBarColor
     }
     
     @objc
@@ -234,7 +234,7 @@ extension ParadisePreviewController: UICollectionViewDelegate, UICollectionViewD
         cell.contentView.backgroundColor = cell.backgroundColor
         cell.clipsToBounds = true
         
-        cell.selectionView.borderColor = ParadisePhotoKitConfiguration.borderColor
+        cell.selectionView.borderColor = PhotoKitConfiguration.borderColor
         let borderWidth: CGFloat = (indexPath == self.selectedIndex) ? 2 : 0
         cell.selectionView.borderWidth = borderWidth
         

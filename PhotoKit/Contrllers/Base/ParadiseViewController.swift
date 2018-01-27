@@ -1,6 +1,6 @@
 //
 //  ParadiseViewController.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Blog  : https://meniny.cn
 //  Github: https://github.com/Meniny
@@ -72,12 +72,12 @@ open class ParadiseViewController: UIViewController {
         return limit ?? 1
     }
     
-    open var photoKit: ParadisePhotoKit?
+    open var photoKit: PhotoKit?
     
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.extendedLayout = false
-        self.view.backgroundColor = ParadisePhotoKitConfiguration.lightBackgroundColor
+        self.view.backgroundColor = PhotoKitConfiguration.lightBackgroundColor
     }
     
     @objc

@@ -1,6 +1,6 @@
 //
 //  ParadiseProtocols.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Blog  : https://meniny.cn
 //  Github: https://github.com/Meniny
@@ -69,29 +69,29 @@ public protocol ParadiseSourceable: class {
     var sourceType: ParadiseSourceType { get }
 }
 
-public protocol ParadisePhotoKitDelegate: class {
+public protocol PhotoKitDelegate: class {
     /// Required function
-    func photoKit(_ photoKit: ParadisePhotoKit, didSelectPhotos photos: [ParadisePhotoResult], from source: ParadiseSourceType)
+    func photoKit(_ photoKit: PhotoKit, didSelectPhotos photos: [ParadisePhotoResult], from source: ParadiseSourceType)
     /// Required function
-    func photoKit(_ photoKit: ParadisePhotoKit, didCapturePhoto photo: UIImage, from source: ParadiseSourceType)
+    func photoKit(_ photoKit: PhotoKit, didCapturePhoto photo: UIImage, from source: ParadiseSourceType)
     /// Required function
-    func photoKit(_ photoKit: ParadisePhotoKit, didSelectVideos videos: [ParadiseVideoResult], from source: ParadiseSourceType)
+    func photoKit(_ photoKit: PhotoKit, didSelectVideos videos: [ParadiseVideoResult], from source: ParadiseSourceType)
     /// Required function
-    func photoKit(_ photoKit: ParadisePhotoKit, didCaptureVideo videoFile: URL, from source: ParadiseSourceType)
+    func photoKit(_ photoKit: PhotoKit, didCaptureVideo videoFile: URL, from source: ParadiseSourceType)
     
     /// Optional function
-    func photoKitDidCancel(_ photoKit: ParadisePhotoKit)
+    func photoKitDidCancel(_ photoKit: PhotoKit)
     /// Optional function
-    func photoKitUnauthorized(_ photoKit: ParadisePhotoKit)
+    func photoKitUnauthorized(_ photoKit: PhotoKit)
     /// Optional function
-    func photoKit(_ photoKit: ParadisePhotoKit, showAlert title: String, message: String, to controller: ParadiseViewController & ParadiseSourceable, confirm: String?, cancel: String, action: @escaping (_ positive: Bool) -> Void)
+    func photoKit(_ photoKit: PhotoKit, showAlert title: String, message: String, to controller: ParadiseViewController & ParadiseSourceable, confirm: String?, cancel: String, action: @escaping (_ positive: Bool) -> Void)
 }
 
-public extension ParadisePhotoKitDelegate {
-    public func photoKitDidCancel(_ photoKit: ParadisePhotoKit) {}
-    public func photoKitUnauthorized(_ photoKit: ParadisePhotoKit) {}
+public extension PhotoKitDelegate {
+    public func photoKitDidCancel(_ photoKit: PhotoKit) {}
+    public func photoKitUnauthorized(_ photoKit: PhotoKit) {}
     
-    public func photoKit(_ photoKit: ParadisePhotoKit,
+    public func photoKit(_ photoKit: PhotoKit,
                          showAlert alert: String,
                          message: String,
                          to controller: ParadiseViewController & ParadiseSourceable,

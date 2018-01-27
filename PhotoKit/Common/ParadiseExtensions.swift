@@ -1,6 +1,6 @@
 //
 //  ParadiseExtensions.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Blog  : https://meniny.cn
 //  Github: https://github.com/Meniny
@@ -165,21 +165,31 @@ public extension AVCaptureDevice {
     }
 }
 
+public extension Bundle {
+    public static var photoKit: Bundle {
+        return Bundle.init(for: PhotoKit.self)
+    }
+}
+
 public extension UIImage {
+    public convenience init?(photoKit named: String) {
+        self.init(named: named, in: Bundle.photoKit, compatibleWith: nil)
+    }
+    
     public static var arrowDropUp: UIImage? {
-        return UIImage.init(named: "arrow_up")
+        return UIImage.init(photoKit: "arrow_up")
     }
     
     public static var arrowDropDown: UIImage? {
-        return UIImage.init(named: "arrow_down")
+        return UIImage.init(photoKit: "arrow_down")
     }
     
     public static var pinRight: UIImage? {
-        return UIImage.init(named: "pin_right")
+        return UIImage.init(photoKit: "pin_right")
     }
     
     public static var pinLeft: UIImage? {
-        return UIImage.init(named: "pin_left")
+        return UIImage.init(photoKit: "pin_left")
     }
 }
 

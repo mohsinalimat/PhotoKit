@@ -1,6 +1,6 @@
 //
 //  GIF.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Created by Elias Abel on 4/2/17.
 //  Copyright © 2017 Meniny Lab. All rights reserved.

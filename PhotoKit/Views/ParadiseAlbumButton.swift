@@ -1,6 +1,6 @@
 //
 //  ParadiseAlbumButton.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Blog  : https://meniny.cn
 //  Github: https://github.com/Meniny

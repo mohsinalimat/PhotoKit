@@ -1,6 +1,6 @@
 //
-//  ParadisePhotoKit.swift
-//  ParadisePhotoKit
+//  PhotoKit.swift
+//  PhotoKit
 //
 //  Blog  : https://meniny.cn
 //  Github: https://github.com/Meniny
@@ -65,9 +65,9 @@ import Foundation
 import UIKit
 import Photos
 
-open class ParadisePhotoKit {
+open class PhotoKit {
     
-    open weak var delegate: ParadisePhotoKitDelegate?
+    open weak var delegate: PhotoKitDelegate?
     
     open let controller: ParadiseViewController & ParadiseSourceable
     

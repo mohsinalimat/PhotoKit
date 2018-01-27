@@ -1,6 +1,6 @@
 //
 //  ParadiseVideoPlayerView.swift
-//  ParadisePhotoKit
+//  PhotoKit
 //
 //  Created by Meniny on 2018-01-27.
 //  Copyright © 2018年 Meniny Lab. All rights reserved.
@@ -75,16 +75,26 @@ open class ParadiseVideoPlayerView: UIView {
     open private(set) lazy var progressView: UIProgressView = {
         let pv = UIProgressView.init(progressViewStyle: UIProgressViewStyle.default)
         pv.trackTintColor = UIColor.white
-        pv.progressTintColor = ParadisePhotoKitConfiguration.borderColor
+        pv.progressTintColor = PhotoKitConfiguration.borderColor
         return pv
     }()
     
     open private(set) lazy var opreationButton: UIButton = {
         let button = UIButton.init()
-        button.setImage(UIImage.init(named: "ic_shutter"), for: .normal)
-        button.setImage(UIImage.init(named: "ic_shutter_recording"), for: .selected)
+        button.isUserInteractionEnabled = false
+        button.setImage(UIImage.init(photoKit: "play"), for: .normal)
         return button
     }()
+    
+    open private(set) var isPlaying: Bool {
+        get {
+            return !self.opreationButton.isSelected
+        }
+        set {
+            self.opreationButton.isSelected = !newValue
+            self.opreationButton.isHidden = newValue
+        }
+    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -92,6 +102,7 @@ open class ParadiseVideoPlayerView: UIView {
             self.player?.removeTimeObserver(observer)
         }
     }
+    
     private var availableDuration: TimeInterval {
         if let loadedTimeRanges = self.player?.currentItem?.loadedTimeRanges, let timeRange = loadedTimeRanges.first?.timeRangeValue {
             let start = CMTimeGetSeconds(timeRange.start)
@@ -128,7 +139,10 @@ open class ParadiseVideoPlayerView: UIView {
         self.translates(subViews: self.progressView, self.opreationButton)
         self.progressView.left(0).right(0).top(0).height(2)
         self.opreationButton.size(50).centerInContainer()
-        self.opreationButton.addTarget(self, action: #selector(autoOperation), for: .touchUpInside)
+//        self.opreationButton.addTarget(self, action: #selector(autoOperation), for: .touchUpInside)
+        
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(autoOperation))
+        self.addGestureRecognizer(tap)
     }
     
     open override func layoutSubviews() {
@@ -138,29 +152,28 @@ open class ParadiseVideoPlayerView: UIView {
     
     @objc
     open func autoOperation() {
-        if self.opreationButton.isSelected {
-            self.play()
-        } else {
+        if self.isPlaying {
             self.pause()
+        } else {
+            self.play()
         }
-        self.opreationButton.isSelected = !self.opreationButton.isSelected
     }
     
     @objc
     open func play() {
-        self.opreationButton.isSelected = false
+        self.isPlaying = true
         self.player?.play()
     }
     
     @objc
     open func pause() {
-        self.opreationButton.isSelected = false
         self.player?.pause()
+        self.isPlaying = false
     }
     
     open func replay() {
         self.progressView.progress = 0
-        self.opreationButton.isSelected = false
+        self.isPlaying = false
         self.player?.seek(to: CMTime.init(seconds: 0, preferredTimescale: CMTimeScale.init(1)))
         self.play()
     }
