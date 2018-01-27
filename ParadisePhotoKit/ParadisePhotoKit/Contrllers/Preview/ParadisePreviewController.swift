@@ -64,6 +64,7 @@
 import Foundation
 import Photos
 import JustLayout
+import AVFoundation
 
 open class ParadisePreviewController: ParadiseViewController {
     
@@ -123,6 +124,11 @@ open class ParadisePreviewController: ParadiseViewController {
         return imgView
     }()
     
+    open lazy var videoView: ParadiseVideoPlayerView = {
+        let player = ParadiseVideoPlayerView.init()
+        return player
+    }()
+    
     open lazy var bottomBar: UIView = {
         let bar = UIView.init()
         bar.clipsToBounds = true
@@ -151,11 +157,18 @@ open class ParadisePreviewController: ParadiseViewController {
         
         self.setupUIComponents()
         
-        self.dataSource?.previewer(self, requestImageForItemAt: 0, completion: { (img) in
-            if self.imageView.image == nil {
-                self.imageView.image = img
-            }
-        })
+        if self.previewMode == .photos {
+            self.dataSource?.previewer(self, requestImageForItemAt: 0, completion: { (img) in
+                if self.imageView.image == nil {
+                    self.imageView.image = img
+                }
+            })
+        } else {
+            self.dataSource?.previewer(self, requestVideoForItemAt: 0, completion: { (u) in
+                self.videoView.url = u
+            })
+        }
+        
     }
     
     open func setupUIComponents() {
@@ -166,10 +179,17 @@ open class ParadisePreviewController: ParadiseViewController {
         let naviHeight: CGFloat = 44
         let fakeNaviHeight = StatusBarHeight.default + naviHeight
         
-        self.view.translates(subViews: self.imageView, self.fakeNavigationBar, self.collectionView, self.bottomBar)
+        let preview: UIView
+        if self.previewMode == .photos {
+            preview = self.imageView
+        } else {
+            preview = self.videoView
+        }
+        
+        self.view.translates(subViews: preview, self.fakeNavigationBar, self.collectionView, self.bottomBar)
         self.view.layout(
             fakeNaviHeight,
-            |-0-self.imageView-0-|,
+            |-0-preview-0-|,
             self.collectionEdgeMargin,
             |-self.collectionEdgeMargin-self.collectionView.height(self.collectionHeight)-self.collectionEdgeMargin-|,
             self.collectionEdgeMargin,
@@ -190,6 +210,10 @@ open class ParadisePreviewController: ParadiseViewController {
     
     @objc
     internal func doneAction() {
+        if self.previewMode == .videos {
+            self.videoView.pause()
+            self.videoView.url = nil
+        }
         self.delegate?.previewerDidFinish(self)
     }
     

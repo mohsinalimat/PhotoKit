@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4E507A421D29AED2874403CE /* Pods_ParadisePhotoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08B92D5766E3035B59A56698 /* Pods_ParadisePhotoKit.framework */; };
+		5C51E3EF201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C51E3EE201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift */; };
 		6425749C2019B15200F2113A /* ParadiseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6425749B2019B15200F2113A /* ParadiseImageView.swift */; };
 		642574A22019BFA500F2113A /* GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642574A12019BFA500F2113A /* GIF.swift */; };
 		644CDF40201B20500071521D /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644CDF3F201B20500071521D /* Configuration.swift */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		08B92D5766E3035B59A56698 /* Pods_ParadisePhotoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParadisePhotoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		186B0E929B6028D34FDE9D8A /* Pods-ParadisePhotoKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParadisePhotoKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-ParadisePhotoKit/Pods-ParadisePhotoKit.release.xcconfig"; sourceTree = "<group>"; };
+		5C51E3EE201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseVideoPlayerView.swift; sourceTree = "<group>"; };
 		6425749B2019B15200F2113A /* ParadiseImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParadiseImageView.swift; sourceTree = "<group>"; };
 		642574A12019BFA500F2113A /* GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIF.swift; sourceTree = "<group>"; };
 		644CDF3F201B20500071521D /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			children = (
 				6425749B2019B15200F2113A /* ParadiseImageView.swift */,
 				6483F9AA20186D17002B802B /* ParadiseAlbumButton.swift */,
+				5C51E3EE201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift */,
 				6483F999201826B4002B802B /* Cells */,
 			);
 			path = Views;
@@ -376,6 +379,7 @@
 				6483F99F20182BB4002B802B /* ParadisePhotoKit.swift in Sources */,
 				6483F9A920184A69002B802B /* ParadiseNavigationController.swift in Sources */,
 				6425749C2019B15200F2113A /* ParadiseImageView.swift in Sources */,
+				5C51E3EF201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift in Sources */,
 				6483F98B2018252B002B802B /* ParadiseCameraController.swift in Sources */,
 				6483F9A7201849D8002B802B /* ParadiseViewController.swift in Sources */,
 				6483F971201824E1002B802B /* AppDelegate.swift in Sources */,

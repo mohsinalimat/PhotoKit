@@ -615,6 +615,10 @@ extension ParadiseCameraController: ParadisePhotoPreviewDelegate, ParadisePhotoP
         }
     }
     
+    public func previewer(_ previewController: ParadisePreviewController, requestVideoForItemAt index: Int, completion: @escaping (URL?) -> Void) {
+        completion(self.outputFileURL)
+    }
+    
     public func numberOfItems(in previewController: ParadisePreviewController) -> Int {
         if self.capturedImage != nil {
             return 1
