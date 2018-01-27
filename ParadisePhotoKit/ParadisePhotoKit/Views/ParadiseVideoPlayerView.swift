@@ -22,7 +22,10 @@ open class ParadiseVideoPlayerView: UIView {
             self.playerLayer?.removeFromSuperlayer()
             self.playerLayer = nil
             
-            self.player?.removeTimeObserver(self)
+            if let observer = self.periodicTimeObserver {
+                self.player?.removeTimeObserver(observer)
+                self.periodicTimeObserver = nil
+            }
             self.player = nil
             
             if let u = self.url {

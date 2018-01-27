@@ -106,6 +106,7 @@ open class ParadiseCameraController: ParadiseViewController, ParadiseSourceable,
     internal var session: AVCaptureSession?
     internal var device: AVCaptureDevice?
     internal var videoInput: AVCaptureDeviceInput?
+    internal var audioIntput: AVCaptureDeviceInput?
     internal var imageOutput: AVCaptureStillImageOutput?
     internal var videoLayer: AVCaptureVideoPreviewLayer?
     internal var videoOutput: AVCaptureMovieFileOutput?
@@ -226,6 +227,14 @@ open class ParadiseCameraController: ParadiseViewController, ParadiseSourceable,
                 session.sessionPreset = AVCaptureSession.Preset.photo
                 
             } else {
+                
+                if let audioDevice = AVCaptureDevice.default(for: .audio), let input = try? AVCaptureDeviceInput.init(device: audioDevice) {
+                    if session.canAddInput(input) {
+                        session.addInput(input)
+                        audioIntput = input
+                    }
+                }
+                
                 videoOutput = AVCaptureMovieFileOutput()
                 let totalSeconds = 60.0 // Total Seconds of capture time
                 let timeScale: Int32 = 30 // FPS
