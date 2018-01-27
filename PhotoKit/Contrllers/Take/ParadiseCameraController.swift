@@ -388,7 +388,6 @@ open class ParadiseCameraController: ParadiseViewController, ParadiseSourceable,
             guard let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer),
                 let image = UIImage(data: data),
                 let cgImage = image.cgImage,
-                let delegate = self.photoKit,
                 let videoLayer = self.videoLayer else {
                     self.startCamera()
                     return

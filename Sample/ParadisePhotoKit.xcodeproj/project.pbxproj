@@ -8,43 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		4E507A421D29AED2874403CE /* Pods_ParadisePhotoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08B92D5766E3035B59A56698 /* Pods_ParadisePhotoKit.framework */; };
-		5C51E3EF201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C51E3EE201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift */; };
-		6425749C2019B15200F2113A /* ParadiseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6425749B2019B15200F2113A /* ParadiseImageView.swift */; };
-		642574A22019BFA500F2113A /* GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642574A12019BFA500F2113A /* GIF.swift */; };
-		644CDF40201B20500071521D /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644CDF3F201B20500071521D /* Configuration.swift */; };
+		5C51E3F6201C5EBD00418EF5 /* JustLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C51E3FA201C5EBD00418EF5 /* JustLayout.framework */; };
+		5C51E3F7201C5EBD00418EF5 /* PhotoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C51E3FB201C5EBD00418EF5 /* PhotoKit.framework */; };
+		5C51E3F8201C5EBD00418EF5 /* SuperAlertController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C51E3FC201C5EBD00418EF5 /* SuperAlertController.framework */; };
+		5C51E3F9201C5EBD00418EF5 /* SuperAlertControllerExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C51E3FD201C5EBD00418EF5 /* SuperAlertControllerExtensions.framework */; };
 		6483F971201824E1002B802B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F970201824E1002B802B /* AppDelegate.swift */; };
 		6483F973201824E1002B802B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F972201824E1002B802B /* ViewController.swift */; };
 		6483F976201824E1002B802B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6483F974201824E1002B802B /* Main.storyboard */; };
 		6483F978201824E1002B802B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6483F977201824E1002B802B /* Assets.xcassets */; };
 		6483F97B201824E1002B802B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6483F979201824E1002B802B /* LaunchScreen.storyboard */; };
 		6483F984201824EC002B802B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6483F983201824EC002B802B /* Photos.framework */; };
-		6483F986201824F1002B802B /* PhotosUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6483F985201824F1002B802B /* PhotosUI.framework */; };
-		6483F98920182516002B802B /* ParadiseLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F98820182516002B802B /* ParadiseLibraryController.swift */; };
-		6483F98B2018252B002B802B /* ParadiseCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F98A2018252B002B802B /* ParadiseCameraController.swift */; };
-		6483F98F201825B2002B802B /* ParadiseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F98E201825B2002B802B /* ParadiseExtensions.swift */; };
-		6483F991201825B8002B802B /* ParadiseDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F990201825B8002B802B /* ParadiseDefines.swift */; };
-		6483F99320182669002B802B /* ParadisePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F99220182669002B802B /* ParadisePreviewController.swift */; };
-		6483F996201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F994201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.swift */; };
-		6483F997201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6483F995201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.xib */; };
-		6483F99F20182BB4002B802B /* ParadisePhotoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F99E20182BB4002B802B /* ParadisePhotoKit.swift */; };
-		6483F9A32018329E002B802B /* ParadiseProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F9A22018329E002B802B /* ParadiseProtocols.swift */; };
-		6483F9A520184084002B802B /* ParadiseMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F9A420184084002B802B /* ParadiseMachine.swift */; };
-		6483F9A7201849D8002B802B /* ParadiseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F9A6201849D8002B802B /* ParadiseViewController.swift */; };
-		6483F9A920184A69002B802B /* ParadiseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F9A820184A69002B802B /* ParadiseNavigationController.swift */; };
-		6483F9AB20186D17002B802B /* ParadiseAlbumButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F9AA20186D17002B802B /* ParadiseAlbumButton.swift */; };
-		6483F9AE201872A9002B802B /* ParadiseAlbumListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F9AC201872A9002B802B /* ParadiseAlbumListTableViewCell.swift */; };
-		6483F9AF201872A9002B802B /* ParadiseAlbumListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6483F9AD201872A9002B802B /* ParadiseAlbumListTableViewCell.xib */; };
-		6483F9B220189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6483F9B020189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.swift */; };
-		6483F9B320189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6483F9B120189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		08B92D5766E3035B59A56698 /* Pods_ParadisePhotoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParadisePhotoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		186B0E929B6028D34FDE9D8A /* Pods-ParadisePhotoKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParadisePhotoKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-ParadisePhotoKit/Pods-ParadisePhotoKit.release.xcconfig"; sourceTree = "<group>"; };
-		5C51E3EE201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseVideoPlayerView.swift; sourceTree = "<group>"; };
-		6425749B2019B15200F2113A /* ParadiseImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParadiseImageView.swift; sourceTree = "<group>"; };
-		642574A12019BFA500F2113A /* GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIF.swift; sourceTree = "<group>"; };
-		644CDF3F201B20500071521D /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		5C51E3F0201C5E8500418EF5 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; name = ".swift-version"; path = "../.swift-version"; sourceTree = "<group>"; };
+		5C51E3F1201C5E8500418EF5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		5C51E3F2201C5E8500418EF5 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
+		5C51E3F3201C5E8500418EF5 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
+		5C51E3F4201C5E8500418EF5 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; name = .gitignore; path = ../.gitignore; sourceTree = "<group>"; };
+		5C51E3F5201C5E8500418EF5 /* PhotoKit.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = PhotoKit.podspec; path = ../PhotoKit.podspec; sourceTree = "<group>"; };
+		5C51E3FA201C5EBD00418EF5 /* JustLayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JustLayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C51E3FB201C5EBD00418EF5 /* PhotoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PhotoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C51E3FC201C5EBD00418EF5 /* SuperAlertController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SuperAlertController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C51E3FD201C5EBD00418EF5 /* SuperAlertControllerExtensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SuperAlertControllerExtensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6483F96D201824E1002B802B /* ParadisePhotoKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParadisePhotoKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6483F970201824E1002B802B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6483F972201824E1002B802B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,23 +42,6 @@
 		6483F97C201824E1002B802B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6483F983201824EC002B802B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		6483F985201824F1002B802B /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
-		6483F98820182516002B802B /* ParadiseLibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseLibraryController.swift; sourceTree = "<group>"; };
-		6483F98A2018252B002B802B /* ParadiseCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseCameraController.swift; sourceTree = "<group>"; };
-		6483F98E201825B2002B802B /* ParadiseExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseExtensions.swift; sourceTree = "<group>"; };
-		6483F990201825B8002B802B /* ParadiseDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseDefines.swift; sourceTree = "<group>"; };
-		6483F99220182669002B802B /* ParadisePreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadisePreviewController.swift; sourceTree = "<group>"; };
-		6483F994201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadisePhotoSelectionCollectionViewCell.swift; sourceTree = "<group>"; };
-		6483F995201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ParadisePhotoSelectionCollectionViewCell.xib; sourceTree = "<group>"; };
-		6483F99E20182BB4002B802B /* ParadisePhotoKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadisePhotoKit.swift; sourceTree = "<group>"; };
-		6483F9A22018329E002B802B /* ParadiseProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseProtocols.swift; sourceTree = "<group>"; };
-		6483F9A420184084002B802B /* ParadiseMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseMachine.swift; sourceTree = "<group>"; };
-		6483F9A6201849D8002B802B /* ParadiseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseViewController.swift; sourceTree = "<group>"; };
-		6483F9A820184A69002B802B /* ParadiseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseNavigationController.swift; sourceTree = "<group>"; };
-		6483F9AA20186D17002B802B /* ParadiseAlbumButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseAlbumButton.swift; sourceTree = "<group>"; };
-		6483F9AC201872A9002B802B /* ParadiseAlbumListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadiseAlbumListTableViewCell.swift; sourceTree = "<group>"; };
-		6483F9AD201872A9002B802B /* ParadiseAlbumListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ParadiseAlbumListTableViewCell.xib; sourceTree = "<group>"; };
-		6483F9B020189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadisePhotoPreviewCollectionViewCell.swift; sourceTree = "<group>"; };
-		6483F9B120189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ParadisePhotoPreviewCollectionViewCell.xib; sourceTree = "<group>"; };
 		ABD63BBCBC7E92D4D043147E /* Pods-ParadisePhotoKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParadisePhotoKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ParadisePhotoKit/Pods-ParadisePhotoKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,7 +50,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6483F986201824F1002B802B /* PhotosUI.framework in Frameworks */,
+				5C51E3F6201C5EBD00418EF5 /* JustLayout.framework in Frameworks */,
+				5C51E3F7201C5EBD00418EF5 /* PhotoKit.framework in Frameworks */,
+				5C51E3F8201C5EBD00418EF5 /* SuperAlertController.framework in Frameworks */,
+				5C51E3F9201C5EBD00418EF5 /* SuperAlertControllerExtensions.framework in Frameworks */,
 				6483F984201824EC002B802B /* Photos.framework in Frameworks */,
 				4E507A421D29AED2874403CE /* Pods_ParadisePhotoKit.framework in Frameworks */,
 			);
@@ -97,42 +71,23 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		644CDF3B201B1EC50071521D /* Base */ = {
+		5C51E3FE201C5F1900418EF5 /* Configration */ = {
 			isa = PBXGroup;
 			children = (
-				6483F9A6201849D8002B802B /* ParadiseViewController.swift */,
-				6483F9A820184A69002B802B /* ParadiseNavigationController.swift */,
+				5C51E3F4201C5E8500418EF5 /* .gitignore */,
+				5C51E3F0201C5E8500418EF5 /* .swift-version */,
+				5C51E3F2201C5E8500418EF5 /* LICENSE.md */,
+				5C51E3F3201C5E8500418EF5 /* Package.swift */,
+				5C51E3F5201C5E8500418EF5 /* PhotoKit.podspec */,
+				5C51E3F1201C5E8500418EF5 /* README.md */,
 			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		644CDF3C201B1ECB0071521D /* Preview */ = {
-			isa = PBXGroup;
-			children = (
-				6483F99220182669002B802B /* ParadisePreviewController.swift */,
-			);
-			path = Preview;
-			sourceTree = "<group>";
-		};
-		644CDF3D201B1ED30071521D /* Take */ = {
-			isa = PBXGroup;
-			children = (
-				6483F98A2018252B002B802B /* ParadiseCameraController.swift */,
-			);
-			path = Take;
-			sourceTree = "<group>";
-		};
-		644CDF3E201B1EDB0071521D /* Browse */ = {
-			isa = PBXGroup;
-			children = (
-				6483F98820182516002B802B /* ParadiseLibraryController.swift */,
-			);
-			path = Browse;
+			name = Configration;
 			sourceTree = "<group>";
 		};
 		6483F964201824E1002B802B = {
 			isa = PBXGroup;
 			children = (
+				5C51E3FE201C5F1900418EF5 /* Configration */,
 				6483F96F201824E1002B802B /* ParadisePhotoKit */,
 				6483F96E201824E1002B802B /* Products */,
 				6483F982201824EC002B802B /* Frameworks */,
@@ -151,7 +106,6 @@
 		6483F96F201824E1002B802B /* ParadisePhotoKit */ = {
 			isa = PBXGroup;
 			children = (
-				6483F98720182504002B802B /* ParadisePhotoKit */,
 				6483F970201824E1002B802B /* AppDelegate.swift */,
 				6483F972201824E1002B802B /* ViewController.swift */,
 				6483F974201824E1002B802B /* Main.storyboard */,
@@ -165,70 +119,15 @@
 		6483F982201824EC002B802B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5C51E3FA201C5EBD00418EF5 /* JustLayout.framework */,
+				5C51E3FB201C5EBD00418EF5 /* PhotoKit.framework */,
+				5C51E3FC201C5EBD00418EF5 /* SuperAlertController.framework */,
+				5C51E3FD201C5EBD00418EF5 /* SuperAlertControllerExtensions.framework */,
 				6483F985201824F1002B802B /* PhotosUI.framework */,
 				6483F983201824EC002B802B /* Photos.framework */,
 				08B92D5766E3035B59A56698 /* Pods_ParadisePhotoKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6483F98720182504002B802B /* ParadisePhotoKit */ = {
-			isa = PBXGroup;
-			children = (
-				6483F99E20182BB4002B802B /* ParadisePhotoKit.swift */,
-				6483F99A201826BB002B802B /* Common */,
-				6483F998201826AD002B802B /* Views */,
-				6483F99B201826C3002B802B /* Contrllers */,
-			);
-			path = ParadisePhotoKit;
-			sourceTree = "<group>";
-		};
-		6483F998201826AD002B802B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6425749B2019B15200F2113A /* ParadiseImageView.swift */,
-				6483F9AA20186D17002B802B /* ParadiseAlbumButton.swift */,
-				5C51E3EE201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift */,
-				6483F999201826B4002B802B /* Cells */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		6483F999201826B4002B802B /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				6483F994201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.swift */,
-				6483F995201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.xib */,
-				6483F9AC201872A9002B802B /* ParadiseAlbumListTableViewCell.swift */,
-				6483F9AD201872A9002B802B /* ParadiseAlbumListTableViewCell.xib */,
-				6483F9B020189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.swift */,
-				6483F9B120189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.xib */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		6483F99A201826BB002B802B /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				644CDF3F201B20500071521D /* Configuration.swift */,
-				642574A12019BFA500F2113A /* GIF.swift */,
-				6483F98E201825B2002B802B /* ParadiseExtensions.swift */,
-				6483F990201825B8002B802B /* ParadiseDefines.swift */,
-				6483F9A22018329E002B802B /* ParadiseProtocols.swift */,
-				6483F9A420184084002B802B /* ParadiseMachine.swift */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		6483F99B201826C3002B802B /* Contrllers */ = {
-			isa = PBXGroup;
-			children = (
-				644CDF3E201B1EDB0071521D /* Browse */,
-				644CDF3D201B1ED30071521D /* Take */,
-				644CDF3C201B1ECB0071521D /* Preview */,
-				644CDF3B201B1EC50071521D /* Base */,
-			);
-			path = Contrllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,11 +193,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6483F97B201824E1002B802B /* LaunchScreen.storyboard in Resources */,
-				6483F997201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.xib in Resources */,
-				6483F9AF201872A9002B802B /* ParadiseAlbumListTableViewCell.xib in Resources */,
 				6483F978201824E1002B802B /* Assets.xcassets in Resources */,
 				6483F976201824E1002B802B /* Main.storyboard in Resources */,
-				6483F9B320189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,12 +242,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ParadisePhotoKit/Pods-ParadisePhotoKit-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/JustLayout/JustLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/PhotoKit/PhotoKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SuperAlertController/SuperAlertController.framework",
 				"${BUILT_PRODUCTS_DIR}/SuperAlertControllerExtensions/SuperAlertControllerExtensions.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JustLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhotoKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SuperAlertController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SuperAlertControllerExtensions.framework",
 			);
@@ -367,26 +265,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6483F9AB20186D17002B802B /* ParadiseAlbumButton.swift in Sources */,
-				6483F9A520184084002B802B /* ParadiseMachine.swift in Sources */,
-				6483F98920182516002B802B /* ParadiseLibraryController.swift in Sources */,
-				6483F9B220189B48002B802B /* ParadisePhotoPreviewCollectionViewCell.swift in Sources */,
 				6483F973201824E1002B802B /* ViewController.swift in Sources */,
-				6483F9AE201872A9002B802B /* ParadiseAlbumListTableViewCell.swift in Sources */,
-				6483F98F201825B2002B802B /* ParadiseExtensions.swift in Sources */,
-				6483F996201826A9002B802B /* ParadisePhotoSelectionCollectionViewCell.swift in Sources */,
-				644CDF40201B20500071521D /* Configuration.swift in Sources */,
-				6483F99F20182BB4002B802B /* ParadisePhotoKit.swift in Sources */,
-				6483F9A920184A69002B802B /* ParadiseNavigationController.swift in Sources */,
-				6425749C2019B15200F2113A /* ParadiseImageView.swift in Sources */,
-				5C51E3EF201C3A5D00418EF5 /* ParadiseVideoPlayerView.swift in Sources */,
-				6483F98B2018252B002B802B /* ParadiseCameraController.swift in Sources */,
-				6483F9A7201849D8002B802B /* ParadiseViewController.swift in Sources */,
 				6483F971201824E1002B802B /* AppDelegate.swift in Sources */,
-				6483F9A32018329E002B802B /* ParadiseProtocols.swift in Sources */,
-				642574A22019BFA500F2113A /* GIF.swift in Sources */,
-				6483F991201825B8002B802B /* ParadiseDefines.swift in Sources */,
-				6483F99320182669002B802B /* ParadisePreviewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

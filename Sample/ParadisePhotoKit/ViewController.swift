@@ -10,13 +10,13 @@ import UIKit
 import SuperAlertController
 import SuperAlertControllerExtensions
 import Photos
+import PhotoKit
 
 class ViewController: UITableViewController {
 
     let sources: [ParadiseSourceType] = [
         ParadiseSourceType.library(of: ParadiseLibraryMediaType.photos, limit: 9),
         ParadiseSourceType.library(of: ParadiseLibraryMediaType.videos, limit: 1),
-//        ParadiseSourceType.library(of: ParadiseLibraryMediaType.all),
         ParadiseSourceType.camera(of: ParadiseCameraType.photo),
         ParadiseSourceType.camera(of: ParadiseCameraType.video)
     ]
